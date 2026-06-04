@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto Final - Biblioteca</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Times New Roman", Times, serif;
+            background: linear-gradient(135deg, #FF4500 0%, #FFD700 100%);
+            padding: 20px;
+            color: #000000;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: powderblue;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(255, 215, 0);
+            overflow: hidden;
+            padding: 30px;
+        }
+
+        /* Encabezado institucional */
+        .header {
+            background: #000000;
+            color: black;
+            padding: 25px;
+            border-radius: 15px; 
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #32CD32 0%, #90EE90 100%);
+            box-shadow: 0 5px 15px rgba(25, 25, 112);
+        }
+
+        .header h2 {
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin: 5px 0;
+        }
+
+        .learning-outcome {
+            background: #FF69B4;
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .main-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #000000;
+            margin: 20px 0 30px;
+            border-bottom: 4px solid #8B0000;
+            display: inline-block;
+            width: auto;
+            padding-bottom: 10px;
+        }
+
+        /* Sección modelo ER */
+        .er-section {
+            background: #FFFFE0;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 10px rgba(255, 165, 0);
+        }
+
+        .er-diagram {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .entity-card {
+            background: LightCyan;
+            border-radius: 15px;
+            width: 220px;
+            padding: 15px;
+            box-shadow: 0 8px 16px rgba(139, 0, 0);
+            transition: transform 0.3s;
+            border-left: 8px solid #FF0000;
+        }
+
+        .entity-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .entity-name {
+            background: #FFFF00;
+            color: black;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .attributes {
+            list-style: none;
+        }
+
+        .attributes li {
+            padding: 6px 0;
+            border-bottom: 1px dashed #000000;
+            font-family: monospace;
+            font-size: 0.95rem;
+        }
+
+        .attributes li strong {
+            color: #FF0000;
+        }
+
+        /* Formularios de inserción */
+        .form-section {
+            margin-bottom: 45px;
+            background: #000000;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 6px 14px rgba(139, 0, 0);
+            border: 1px solid #000000;
+        }
+
+        .form-title {
+            font-size: 1.8rem;
+            color: #000000;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 8px solid #000000;
+        }
+
+        .table-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: space-between;
+        }
+
+        .table-form {
+            flex: 1;
+            min-width: 230px;
+            background: #ADFF2F;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(139, 0, 0);
+        }
+
+        .table-form h3 {
+            background: #00008B;
+            color: white;
+            padding: 10px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 12px;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 0.85rem;
+            color: #000000;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #00008B;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+
+        .input-group input:focus {
+            border-color: #000000;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(25, 25, 112);
+        }
+
+        button {
+            background: #FF00FF;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #EE82EE;
+            transform: scale(1.02);
+        }
+
+        .records-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: LightCyan;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(25, 25, 112);
+        }
+
+        .records-table th, .records-table td {
+            border: 1px solid #00008B;
+            padding: 10px;
+            text-align: left;
+            font-size: 0.85rem;
+        }
+
+        .records-table th {
+            background: #0000FF;
+            color: white;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin: 20px 0 15px;
+            font-weight: 600;
+            color: #000000;
+        }
+
+        hr {
+            margin: 20px 0;
+            border: 1px solid #000000;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 15px;
+            background: #FFA500;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- ENCABEZADO con todos los datos solicitados -->
+    <div class="header">
+        <h2>📘 Módulo: Diseño y Elaboración de Páginas Web</h2>
+	<p>🧔 Alumno: Pérez De La Cruz Gerardo</p>
+        <p>👩‍🏫 Docente: Edith Martínez Hernández</p>
+        <p>🎯 Resultado de Aprendizaje: <span class="learning-outcome">2.2 - Implementar modelos de datos y formularios dinámicos</span></p>
+        <p style="margin-top: 8px;">🏆 <strong>Proyecto Final</strong> | Base de Datos: Biblioteca</p>
+    </div>
+    <div style="text-align: center;">
+        <div class="main-title">📔 MODELO ENTIDAD-RELACIÓN - BIBLIOTECA 📔</div>
+    </div>
+
+    <!-- MODELO ENTIDAD RELACIÓN: 4 entidades, cada una con 4 atributos -->
+    <div class="er-section">
+        <h2 style="color:#000000;">📝 Diagrama Conceptual (ER)</h2>
+        <div class="er-diagram">
+            <!-- Entidad 1: LIBROS -->
+            <div class="entity-card">
+                <div class="entity-name">📙 LIBROS</div>
+                <ul class="attributes">
+                    <li><strong>🗝️ id_libro</strong> (PK, INT)</li>
+                    <li>📌 titulo (VARCHAR)</li>
+                    <li>✍️ autor (VARCHAR)</li>
+                    <li>📆 año_publicacion (INT)</li>
+                </ul>
+            </div>
+            <!-- Entidad 2: SOCIOS -->
+            <div class="entity-card">
+                <div class="entity-name">🫂 SOCIOS</div>
+                <ul class="attributes">
+                    <li><strong>🗝️ id_socio</strong> (PK, INT)</li>
+                    <li>😁 nombre (VARCHAR)</li>
+                    <li>📱 telefono (VARCHAR)</li>
+                    <li>✉️ email (VARCHAR)</li>
+                </ul>
+            </div>
+            <!-- Entidad 3: PRESTAMOS -->
+            <div class="entity-card">
+                <div class="entity-name">🔄 PRESTAMOS</div>
+                <ul class="attributes">
+                    <li><strong>🗝️ id_prestamo</strong> (PK, INT)</li>
+                    <li>🔗 id_libro (FK)</li>
+                    <li>🔗 id_socio (FK)</li>
+                    <li>📆 fecha_prestamo (DATE)</li>
+                </ul>
+            </div>
+            <!-- Entidad 4: EDITORIALES -->
+            <div class="entity-card">
+                <div class="entity-name">🏛️ EDITORIALES</div>
+                <ul class="attributes">
+                    <li><strong>🗝️ id_editorial</strong> (PK, INT)</li>
+                    <li>📛 nombre_editorial</li>
+                    <li>🗺️ pais (VARCHAR)</li>
+                    <li>📱 contacto (VARCHAR)</li>
+                </ul>
+            </div>
+        </div>
+        <p style="margin-top: 20px; text-align: center; font-style: italic; background: #7FFFD4; padding: 8px; border-radius: 30px;">
+            🔗 Relaciones: PRESTAMOS relaciona LIBROS y SOCIOS (N:M mediante la entidad préstamo). EDITORIALES se relaciona con LIBROS (1:N).
+        </p>
+    </div>
+
+    <!-- SECCIÓN PARA INSERTAR 5 REGISTROS EN CADA TABLA (base datos BIBLIOTECA) -->
+    <h2 class="section-title">➕ Inserción De 10 Registros Por Tabla</h2>
+    <p style="margin-bottom: 20px;">Complete Los Formularios Para Registrar Datos En <strong>BIBLIOTECA</strong>. Cada Tabla Admite Hasta 5 Registros. Los Datos Se Almacenan Temporalmente y Se Muestran Abajo.</p>
+
+    <div id="forms-container">
+        <!-- Los formularios se generan con JS para manejar cada tabla con 10 registros dinámicos -->
+    </div>
+
+    <!-- Botón global para reiniciar todos los datos (borrar registros) -->
+    <div style="text-align: right; margin: 10px 0;">
+        <button id="resetAllBtn" style="background:#0000FF; width: auto; padding: 8px 20px;">🗑️ Reiniciar todos los registros</button>
+    </div>
+
+    <!-- VISUALIZACIÓN DE REGISTROS POR TABLA -->
+    <h2 class="section-title">📓 Registros Insertados - Base De Datos BIBLIOTECA</h2>
+    <div id="records-display">
+        <!-- Aquí se mostrarán las tablas con los registros dinámicamente -->
+    </div>
+    <footer>
+        Proyecto Final - Modelo Entidad Relación Biblioteca | Inserción de 10 registros por entidad | Base De Datos: BIBLIOTECA
+    </footer>
+</div>
+
+<script>
+    // Definir estructura para almacenar los registros de cada tabla (hasta 10 por tabla)
+    // Tablas: Libros, Socios, Prestamos, Editoriales
+    let bibliotecaData = {
+        libros: [],      // atributos: id_libro, titulo, autor, anio_publicacion
+        socios: [],     // id_socio, nombre, telefono, email
+        prestamos: [],  // id_prestamo, id_libro, id_socio, fecha_prestamo
+        editoriales: [] // id_editorial, nombre_editorial, pais, contacto
+    };
+
+    // Función auxiliar para verificar límite (máx 10)
+    function canInsert(tableName) {
+        return bibliotecaData[tableName].length < 10;
+    }
+
+    // Insertar registro genérico
+    function insertRecord(table, record) {
+        if (bibliotecaData[table].length < 10) {
+            bibliotecaData[table].push(record);
+            renderAllTables();
+            return true;
+        } else {
+            alert(`⚠️ La tabla ${table.toUpperCase()} ya tiene 5 registros. No se pueden agregar más.`);
+            return false;
+        }
+    }
+
+    // Función para renderizar todos los formularios y las tablas de registros
+    function renderAllTables() {
+        renderForms();      // Construye los formularios de inserción
+        renderRecords();    // Muestra los registros guardados
+    }
+
+    // Construir dinámicamente los formularios para cada entidad (con 5 slots máximo pero formulario individual por entidad)
+    // Cada formulario permite insertar 1 registro a la vez, pero el usuario puede hacer 10 inserciones sucesivas.
+    function renderForms() {
+        const container = document.getElementById('forms-container');
+        if (!container) return;
+        
+        // Definición de las 4 entidades con sus campos
+        const entities = [
+            { name: 'libros', display: '📚 LIBROS', fields: [
+                { label: 'ID Libro (PK)', type: 'number', placeholder: 'Ej: 101', key: 'id_libro' },
+                { label: 'Título', type: 'text', placeholder: 'Cien años de soledad', key: 'titulo' },
+                { label: 'Autor', type: 'text', placeholder: 'Gabriel García Márquez', key: 'autor' },
+                { label: 'Año Publicación', type: 'number', placeholder: '1967', key: 'anio_publicacion' }
+            ] },
+            { name: 'socios', display: '👥 SOCIOS', fields: [
+                { label: 'ID Socio (PK)', type: 'number', placeholder: '1', key: 'id_socio' },
+                { label: 'Nombre', type: 'text', placeholder: 'Ana López', key: 'nombre' },
+                { label: 'Teléfono', type: 'text', placeholder: '555-1234', key: 'telefono' },
+                { label: 'Email', type: 'email', placeholder: 'ana@mail.com', key: 'email' }
+            ] },
+            { name: 'prestamos', display: '🔄 PRÉSTAMOS', fields: [
+                { label: 'ID Préstamo (PK)', type: 'number', placeholder: '1001', key: 'id_prestamo' },
+                { label: 'ID Libro (FK)', type: 'number', placeholder: '101', key: 'id_libro' },
+                { label: 'ID Socio (FK)', type: 'number', placeholder: '1', key: 'id_socio' },
+                { label: 'Fecha Préstamo', type: 'date', placeholder: '', key: 'fecha_prestamo' }
+            ] },
+            { name: 'editoriales', display: '🏛️ EDITORIALES', fields: [
+                { label: 'ID Editorial (PK)', type: 'number', placeholder: '10', key: 'id_editorial' },
+                { label: 'Nombre Editorial', type: 'text', placeholder: 'Planeta', key: 'nombre_editorial' },
+                { label: 'País', type: 'text', placeholder: 'España', key: 'pais' },
+                { label: 'Contacto', type: 'text', placeholder: 'info@planeta.com', key: 'contacto' }
+            ] }
+        ];
+
+        let formsHTML = '<div class="table-group">';
+        for (let entity of entities) {
+            const currentCount = bibliotecaData[entity.name].length;
+            const remaining = 10 - currentCount;
+            formsHTML += `
+                <div class="table-form" id="form-${entity.name}">
+                    <h3>${entity.display} <span style="font-size:0.8rem;">(${currentCount}/10 registros)</span></h3>
+                    <form onsubmit="event.preventDefault(); handleInsert('${entity.name}')">
+            `;
+            for (let field of entity.fields) {
+                formsHTML += `
+                    <div class="input-group">
+                        <label>${field.label}</label>
+                        <input type="${field.type}" id="${entity.name}_${field.key}" placeholder="${field.placeholder}" required>
+                    </div>
+                `;
+            }
+            formsHTML += `
+                        <button type="submit" ${remaining <= 0 ? 'disabled style="background:#000000;"' : ''}>
+                            ${remaining > 0 ? `➕ Insertar registro (quedan ${remaining})` : '📌 Límite alcanzado'}
+                        </button>
+                    </form>
+                </div>
+            `;
+        }
+        formsHTML += '</div>';
+        container.innerHTML = formsHTML;
+    }
+
+    // Manejar inserción de cada tabla
+    window.handleInsert = function(tableName) {
+        if (!canInsert(tableName)) {
+            alert(`La tabla ${tableName.toUpperCase()} ya tiene 10 registros. No puede agregar más.`);
+            renderAllTables(); // refrescar botones
+            return;
+        }
+
+        // Obtener valores según la tabla
+        let newRecord = {};
+        if (tableName === 'libros') {
+            const id_libro = document.getElementById('libros_id_libro')?.value;
+            const titulo = document.getElementById('libros_titulo')?.value;
+            const autor = document.getElementById('libros_autor')?.value;
+            const anio = document.getElementById('libros_anio_publicacion')?.value;
+            if (!id_libro || !titulo || !autor || !anio) {
+                alert('Complete todos los campos del libro.');
+                return;
+            }
+            // Validar ID único (opcional pero recomendable)
+            if (bibliotecaData.libros.some(l => l.id_libro == id_libro)) {
+                alert('El ID del libro ya existe. Use un ID diferente.');
+                return;
+            }
+            newRecord = { id_libro: parseInt(id_libro), titulo, autor, anio_publicacion: parseInt(anio) };
+        } 
+        else if (tableName === 'socios') {
+            const id_socio = document.getElementById('socios_id_socio')?.value;
+            const nombre = document.getElementById('socios_nombre')?.value;
+            const telefono = document.getElementById('socios_telefono')?.value;
+            const email = document.getElementById('socios_email')?.value;
+            if (!id_socio || !nombre || !telefono || !email) {
+                alert('Complete todos los campos del socio.');
+                return;
+            }
+            if (bibliotecaData.socios.some(s => s.id_socio == id_socio)) {
+                alert('El ID del socio ya existe.');
+                return;
+            }
+            newRecord = { id_socio: parseInt(id_socio), nombre, telefono, email };
+        }
+        else if (tableName === 'prestamos') {
+            const id_prestamo = document.getElementById('prestamos_id_prestamo')?.value;
+            const id_libro = document.getElementById('prestamos_id_libro')?.value;
+            const id_socio = document.getElementById('prestamos_id_socio')?.value;
+            const fecha = document.getElementById('prestamos_fecha_prestamo')?.value;
+            if (!id_prestamo || !id_libro || !id_socio || !fecha) {
+                alert('Complete todos los campos del préstamo.');
+                return;
+            }
+            if (bibliotecaData.prestamos.some(p => p.id_prestamo == id_prestamo)) {
+                alert('El ID del préstamo ya existe.');
+                return;
+            }
+            newRecord = { id_prestamo: parseInt(id_prestamo), id_libro: parseInt(id_libro), id_socio: parseInt(id_socio), fecha_prestamo: fecha };
+        }
+        else if (tableName === 'editoriales') {
+            const id_edit = document.getElementById('editoriales_id_editorial')?.value;
+            const nombre_edit = document.getElementById('editoriales_nombre_editorial')?.value;
+            const pais = document.getElementById('editoriales_pais')?.value;
+            const contacto = document.getElementById('editoriales_contacto')?.value;
+            if (!id_edit || !nombre_edit || !pais || !contacto) {
+                alert('Complete todos los campos de la editorial.');
+                return;
+            }
+            if (bibliotecaData.editoriales.some(e => e.id_editorial == id_edit)) {
+                alert('El ID de editorial ya existe.');
+                return;
+            }
+            newRecord = { id_editorial: parseInt(id_edit), nombre_editorial: nombre_edit, pais, contacto };
+        }
+        
+        // Insertar y refrescar
+        insertRecord(tableName, newRecord);
+        // Limpiar formulario después de insertar
+        const formContainer = document.getElementById(`form-${tableName}`);
+        if (formContainer) {
+            const inputs = formContainer.querySelectorAll('input');
+            inputs.forEach(input => { if(input.type !== 'submit') input.value = ''; });
+        }
+    };
+
+    // Mostrar todas las tablas con los registros actuales
+    function renderRecords() {
+        const displayDiv = document.getElementById('records-display');
+        if (!displayDiv) return;
+        
+        let html = '<div class="table-group" style="flex-wrap: wrap;">';
+        
+        // Tabla Libros
+        html += `<div style="flex:1; min-width:550px; margin:10px;"><h3 style="background:#FF00FF; color:black; padding:8px; border-radius:12px; text-align:center;">📚 LIBROS</h3>`;
+        html += `<table class="records-table"><thead><tr><th>ID</th><th>Título</th><th>Autor</th><th>Año</th></tr></thead><tbody>`;
+        if (bibliotecaData.libros.length === 0) html += `<tr><td colspan="4">Sin registros</td></tr>`;
+        bibliotecaData.libros.forEach(l => {
+            html += `<tr><td>${l.id_libro}</td><td>${l.titulo}</td><td>${l.autor}</td><td>${l.anio_publicacion}</td></tr>`;
+        });
+        html += `</tbody></table></div>`;
+        
+        // Tabla Socios
+        html += `<div style="flex:1; min-width:550px; margin:10px;"><h3 style="background:#FF00FF; color:black; padding:8px; border-radius:12px; text-align:center;">🫂 SOCIOS</h3>`;
+        html += `<table class="records-table"><thead><tr><th>ID</th><th>Nombre</th><th>Teléfono</th><th>Email</th></tr></thead><tbody>`;
+        if (bibliotecaData.socios.length === 0) html += `<tr><td colspan="4">Sin registros</td></tr>`;
+        bibliotecaData.socios.forEach(s => {
+            html += `<tr><td>${s.id_socio}</td><td>${s.nombre}</td><td>${s.telefono}</td><td>${s.email}</td></tr>`;
+        });
+        html += `</tbody></table></div>`;
+        
+        // Tabla Prestamos
+        html += `<div style="flex:1; min-width:550px; margin:10px;"><h3 style="background:#FF00FF; color:black; padding:8px; border-radius:12px; text-align:center;">🔄 PRÉSTAMOS</h3>`;
+        html += `<table class="records-table"><thead><tr><th>ID Préstamo</th><th>ID Libro</th><th>ID Socio</th><th>Fecha</th></tr></thead><tbody>`;
+        if (bibliotecaData.prestamos.length === 0) html += `<tr><td colspan="4">Sin registros</td></tr>`;
+        bibliotecaData.prestamos.forEach(p => {
+            html += `<tr><td>${p.id_prestamo}</td><td>${p.id_libro}</td><td>${p.id_socio}</td><td>${p.fecha_prestamo}</td></tr>`;
+        });
+        html += `</tbody></table></div>`;
+        
+        // Tabla Editoriales
+        html += `<div style="flex:1; min-width:550px; margin:10px;"><h3 style="background:#FF00FF; color:black; padding:8px; border-radius:12px; text-align:center;">🏛️ EDITORIALES</h3>`;
+        html += `<table class="records-table"><thead><tr><th>ID Editorial</th><th>Nombre</th><th>País</th><th>Contacto</th></tr></thead><tbody>`;
+        if (bibliotecaData.editoriales.length === 0) html += `<tr><td colspan="4">Sin registros</td></tr>`;
+        bibliotecaData.editoriales.forEach(e => {
+            html += `<tr><td>${e.id_editorial}</td><td>${e.nombre_editorial}</td><td>${e.pais}</td><td>${e.contacto}</td></tr>`;
+        });
+        html += `</tbody></table></div>`;
+        
+        html += '</div>';
+        displayDiv.innerHTML = html;
+    }
+    
+    // Botón reset global
+    document.getElementById('resetAllBtn')?.addEventListener('click', () => {
+        if (confirm('⚠️ ¿Estás seguro de que deseas eliminar TODOS los registros de todas las tablas? Esta acción no se puede deshacer.')) {
+            bibliotecaData = {
+                libros: [],
+                socios: [],
+                prestamos: [],
+                editoriales: []
+            };
+            renderAllTables();
+        }
+    });
+    
+    // Carga inicial
+    renderAllTables();
+    
+    // Insertar algunos datos de ejemplo para demostración (10 registros opcionales pero puede ser didáctico, pero no se requiere automático, pero se coloca un ejemplo inicial para visualizar? 
+    // El enunciado dice "posteriorir solicitartlos datos parainsertar 5 registros" implica que el usuario los debe insertar, sin embargo para facilitar y mostrar funcionalidad se deja ejemplo de 1 por defecto opcional?
+    // Por claridad se pre-carga un registro de muestra en cada tabla, pero sin violar límite para que el usuario pueda insertar hasta 10. Si se desea borrar puede usar reset.
+    // Para cumplir con la solicitud de insertar 5 registros mediante formularios, el usuario hará las inserciones. Pero mostraré un par de ejemplos para entender la interfaz. Comento pero opcional.
+    // Mejor inserto un par de ejemplos solo como referencia inicial para no tener vacío, manteniendo espacio para 10 registros.
+    if (bibliotecaData.libros.length === 0) {
+        insertRecord('libros', { id_libro: 1, titulo: "Don Quijote", autor: "Miguel de Cervantes", anio_publicacion: 1605 });
+        insertRecord('socios', { id_socio: 101, nombre: "María Pérez", telefono: "555-1111", email: "maria@mail.com" });
+        insertRecord('prestamos', { id_prestamo: 500, id_libro: 1, id_socio: 101, fecha_prestamo: "2025-03-10" });
+        insertRecord('editoriales', { id_editorial: 20, nombre_editorial: "Alfaguara", pais: "España", contacto: "alfaguara@example.com" });
+    }
+    // Se refresca de nuevo después de estos ejemplos (solo para mostrar)
+    setTimeout(() => renderAllTables(), 10);
+</script>
+</body>
+</html>

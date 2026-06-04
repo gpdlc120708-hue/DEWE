@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Áreas y Perímetros</title>
+    <style>
+        *{
+ 	   box-sizing:border-box;
+  	   font-family: "Times New Roman", Times, serif;
+	}
+
+	body{
+ 	    background:linear-gradient(135deg, #FF4500 0%, #FFD700 100%);
+  	    min-height:100vh;
+       	    display:flex;
+	    justify-content:center;
+	    align-items:center;
+ 	    margin:0;
+ 	    padding:20px;
+	}
+	.card{
+ 	    background: rgba(175, 238, 238);
+ 	    border-radius: 2rem;
+ 	    box-shadow:0 20px 35px rgba(0,0,0,0.2);
+ 	    width:100%;
+ 	    padding:2rem;
+ 	    border-radius:30px;
+ 	    max-width: 650px;
+	}
+	.badge{
+ 	    background:#00BFFF;
+	    color:#000000;
+ 	    padding: 0.3rem 0.8rem;
+	    border-radius:30px;
+	    font-size:0.8rem;
+	    font-weight:bold;
+ 	    display:inline-block;
+	    margin-bottom:1rem;
+	}
+	h1{
+	    background: #E0FFFF;
+	    font-size: 1.8rem;
+	    color: #000000;
+	    margin-top: 0;
+	    text-align: center;
+ 	    border-left: 5px solid #00008B;
+	    padding-left: 1rem;
+	}
+	.figuras{
+	    display:flex;
+	    flex-wrap:wrap;
+	    gap:10px;
+	    margin: 1.5rem 0;
+	    justify-content:center;
+	}
+	.btn-figura{
+	    background:#FFB6C1;
+	    border:none;
+	    padding: 0.7rem 1.2rem;
+	    border-radius:40px;
+	    cursor:pointer;
+	    transition: 0.2s;
+	    font-size: 1rem;
+	    color:#000000;
+	    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+	}
+	.btn-figura.activa {
+	    background: #DDA0DD;
+	    color: white;
+	    box-shadow: 0 5px 12px rgba(42,82,152,0.4);
+	}
+	.btn-figura:hover{
+	    background: #FFD700;
+	    transform: scale(1.02);
+	}
+	.activa{
+	    background:#90EE90;
+	    color: #000000;
+	}
+	.panel-inputs{
+	    background:#FFD700;
+	    border-radius: 1.5rem;
+	    padding: 1.5rem;
+	    border:1px solid #000000;
+	}
+	label{
+	    font-weight: 600;
+	    display:block;
+	    margin: 0.8rem 0 0.3rem;
+	    color: #000000;
+	}
+	input{
+	    width:100%;
+	    padding: 0.8rem;
+	    border-radius: 1rem;
+	    border: 1px solid #FFB6C1;
+	    font-size: 1rem;
+	    transition: 0.2s;
+	}
+	input:focus{
+	    border-color:#000000;
+	    outline:none;
+	    box-shadow: 0 0 0 3px rgba(42,82,152,0.2);
+	}
+	button[type="button"]{
+	    background:#FFA500;
+	    color: #000000;
+	    border:none;
+	    padding: 0.8rem 1.5rem;
+	    font-size: 1.1rem;
+	    font-weight: bold;
+	    border-radius: 2rem;
+	    width:100%;
+	    margin: 1rem 0 0.5rem;
+	    cursor:pointer;
+ 	    transition: 0.2s;
+	}
+	button[type="button"]:hover{
+	    background: #FFA07A;
+	    transform: translateY(-2px);
+	}
+	.resultado{
+	    background: #000000;
+            color: white;
+	    border-radius: 1.2rem;
+	    padding: 1rem 1.5rem;
+	    font-size: 1.2rem;
+	    text-align:center;
+	    border-left: 6px solid #000000;
+	    margin-top: 1rem;
+	    word-break: break-word;    
+	}
+	.codigo-demo{
+	    background: #EE82EE;
+	    color: #000000;
+	    padding: 0.8rem;
+	    border-radius: 1rem;
+	    font-family: monospace;
+	    font-size: 0.8rem;
+	    margin-top: 1.5rem;
+	    overflow-x: auto;
+	}
+	hr {
+	    margin: 1rem 0;
+	    border-color: #000000;
+	}
+	footer{
+	    font-size: 0.75rem;
+	    text-align: center;
+	    margin-top: 1.5rem;
+	    color: #000000;
+	}
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <span class="badge">📐 IF/ELSE</span>
+    <h1>🧮 Calculadora de Áreas y Perímetros</h1>
+    <p style="color:#000000;">Selecciona Una Figura y Calcula Automáticamente El Área y Perímetro Usando JavaScript.</p>
+
+    <div class="figuras">
+        <button data-figura="hexagono" class="btn-figura">⬡ Hexágono</button>
+        <button data-figura="pentagono" class="btn-figura">⬟ Pentágono</button>
+        <button data-figura="romboide" class="btn-figura">▱ Romboide</button>
+    </div>
+
+    <div class="panel-inputs" id="panelInputs">
+    </div>
+
+    <button type="button" id="calcularBtn1">🧠 CALCULAR PERÍMETRO</button>
+    <button type="button" id="calcularBtn2">🧠 CALCULAR ÁREA</button>
+
+    <div class="resultado1" id="resultado">
+         💡 Resultado 😁
+    </div>
+
+    <div class="codigo-demo" id="explicacionCodigo">🔍 El programa usa:<br><br>
+         ✔️ Variables<br>
+	 ✔️ Operadores aritméticos<br>
+         ✔️ if / else if<br>
+         ✔️ Eventos<br>
+         ✔️ Manipulación del DOM
+    </div>
+
+    <footer>
+         ✔️ Calculadora (Perímetro y Área)<br>
+         ✔️ Pérez De La Cruz Gerardo<br> 
+         ✔️ Grupo 603I-M<br>
+	 ✔️ Profesora: Lic. Rosa Edith Martínez Hernández
+    </footer>
+</div>
+
+<script>
+    let figuraActual = "hexagono";
+    let valoresInputs = {
+        lado:0,
+        apotema:0,
+        base:0,
+        altura:0
+    };
+
+    function renderizarInputsSegunFigura(){
+        const panel = document.getElementById("panelInputs");
+        let html = "";
+        switch(figuraActual){
+            case 'hexagono':
+                html = `
+                    <label>📏 Lado del Hexágono (cm):</label>
+    		    <input type="number" id="ladoHex">
+    	            <label>📐 Apotema (cm):</label>
+                    <input type="number" id="apotemaHex">
+                    <small>Fórmula Perímetro = 6 × lado<br>	                   
+                    Fórmula Área = (Perímetro × Apotema) / 2
+                    </small>
+                `;  
+                break;
+            case 'pentagono':
+                html = `
+                    <label>📏 Lado del Pentágono (cm):</label>
+                    <input type="number" id="ladoPent">
+                    <label>📐 Apotema (cm):</label>
+                    <input type="number" id="apotemaPent">
+                    <small>Fórmula Perímetro = 5 × lado<br>
+                    Fórmula Área = (Perímetro × Apotema) / 2
+                    </small>
+                `; 
+                break;
+            case 'romboide':
+                html = `
+                    <label>📏 Base del romboide (cm):</label>
+                    <input type="number" id="baseRomboide">
+                    <label>📐 Altura del romboide (cm):</label>
+                    <input type="number" id="alturaRomboide">
+                    <small>Fórmula Perímetro b+b+h+h<br>
+                    Fórmula Área = base × altura
+                    </small>
+                `;
+                break;
+         }
+         panel.innerHTML = html;
+         actualizarListenersInputs();
+    }
+
+    function actualizarListenersInputs(){
+        const mapeo = {
+            ladoHex:"lado",
+            apotemaHex:"apotema",
+            ladoPent:"lado",
+            apotemaPent:"apotema",
+            baseRomboide:"base",
+            alturaRomboide:"altura"
+        };
+
+        for (const [id,propiedad] of Object.entries(mapeo)){
+            const elemento = document.getElementById(id);
+            if(elemento){
+                elemento.oninput = function(e){
+                let valor = parseFloat(e.target.value);
+                if(isNaN(valor)){
+                valor = 0;
+                }
+
+                valoresInputs[propiedad] = valor;
+            };
+        }
+    }
+}
+
+function calcularPerimetro(){
+    let resultado = "";
+    let figura = figuraActual;
+    let mensaje = "";
+    if(figura === "hexagono"){
+        let lado = valoresInputs.lado;
+        let perimetro = lado * 6;  
+        mensaje = `
+        <strong>⬡ Hexágono</strong><br><br>
+        📏 Perímetro:
+        ${perimetro.toFixed(2)} cm
+        `;
+     }
+
+     else if(figura === "pentagono"){
+        let lado = valoresInputs.lado;
+        let perimetro = lado * 5;  
+        mensaje = `
+        <strong>⬡ Pentágono</strong><br><br>
+        📏 Perímetro:
+        ${perimetro.toFixed(2)} cm
+        `;
+      }
+
+      else if(figura === "romboide"){
+        let base = valoresInputs.base;
+        let altura = valoresInputs.altura;
+        let perimetro = (base * 2) + (altura * 2);  
+        mensaje = `
+        <strong>▱ Romboide</strong><br><br>
+        📏 Perímetro:
+        ${perimetro.toFixed(2)} cm
+        `;
+      }
+
+      document.getElementById("resultado").innerHTML = mensaje;
+}
+
+function calcularArea(){
+    let resultado = "";
+    let figura = figuraActual;
+    let mensaje = "";
+    if(figura === "hexagono"){
+        let lado = valoresInputs.lado;
+        let apotema = valoresInputs.apotema;
+        let perimetro = lado * 6;
+        let area = (perimetro * apotema) / 2;
+        mensaje = `
+        <strong>⬡ Hexágono</strong><br><br>
+        📐 Área:
+        ${area.toFixed(2)} cm²
+        `;
+    }
+
+    else if(figura === "pentagono"){
+        let lado = valoresInputs.lado;
+        let apotema = valoresInputs.apotema;
+        let perimetro = lado * 5;
+        let area = (perimetro * apotema) / 2;
+        mensaje = `
+        <strong>⬟ Pentágono</strong><br><br>
+        📐 Área:
+        ${area.toFixed(2)} cm²
+        `;
+    }
+
+    else if(figura === "romboide"){
+        let base = valoresInputs.base;
+        let altura = valoresInputs.altura;
+        let area = base * altura;
+        let perimetro = (base * 2) + (altura * 2);
+        mensaje = `
+        <strong>▱ Romboide</strong><br><br>
+        📐 Área:
+        ${area.toFixed(2)} cm²
+        `;
+    }
+
+    document.getElementById("resultado").innerHTML = mensaje;
+}
+
+function actualizarExplicacion(figura){
+    document.getElementById("explicacionCodigo").innerHTML = `
+    🔍 <strong>Estructura Ejecutada:<strong><br>
+    ✔️ Figura detectada: <strong>${figura}<strong><br>
+    ✔️ Se utilizó:<strong>if / else if<strong><br>
+    ✔️ Variables dinámicas<br>
+    ✔️ Operadores:<strong>+, *, /, ()<strong>
+    `;
+}
+
+function inicializarEventos(){
+    const botones = document.querySelectorAll(".btn-figura");
+    botones.forEach(btn => {
+        btn.addEventListener("click",()=>{
+            botones.forEach(b => b.classList.remove("activa"));
+            btn.classList.add("activa");
+            figuraActual = btn.getAttribute("data-figura");
+            renderizarInputsSegunFigura();
+            document.getElementById("resultado").innerHTML =
+            "🔄 Figura seleccionada correctamente";
+        });
+    });
+
+    document.getElementById("calcularBtn1")
+    .addEventListener("click",()=>{
+
+        sincronizarValoresDesdeDOM();
+        calcularPerimetro();
+    });
+
+    document.getElementById("calcularBtn2")
+    .addEventListener("click",()=>{
+
+        sincronizarValoresDesdeDOM();
+        calcularArea();
+    });
+
+}
+
+function sincronizarValoresDesdeDOM(){
+    const mapeoIds = {
+        ladoHex:"lado",
+        apotemaHex:"apotema",
+        ladoPent:"lado",
+        apotemaPent:"apotema",
+        baseRomboide:"base",
+        alturaRomboide:"altura"
+    };
+
+    for(const [id,prop] of Object.entries(mapeoIds)){
+        const el = document.getElementById(id);
+        if(el){
+            let valor = parseFloat(el.value);
+            if(isNaN(valor)){
+                valor = 0;
+            }
+
+            valoresInputs[prop] = valor;
+        }
+    }
+}
+
+function init(){
+    renderizarInputsSegunFigura();
+    inicializarEventos();
+    document.querySelector(".btn-figura")
+    .classList.add("activa");
+}
+
+init();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área de Figuras Geométricas</title>
+    <style>
+        * {
+	    box-sizing: border-box;
+            font-family: "Times New Roman", Times, serif;
+        }
+        body {
+            background: linear-gradient(135deg, #FF4500 0%, #FFD700 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .card {
+            background: rgba(175, 238, 238);
+            border-radius: 2rem;
+            box-shadow: 0 20px 35px rgba(255, 0, 0);
+            max-width: 650px;
+            width: 100%;
+            padding: 2rem;
+            transition: 0.3s;
+        }
+        h1 {
+	    background: #E0FFFF;
+            font-size: 1.8rem;
+            color: #000000;
+            margin-top: 0;
+            text-align: center;
+            border-left: 5px solid #00008B;
+            padding-left: 1rem;
+        }
+        .badge {
+            background: #00BFFF;
+            color: #000000;
+            padding: 0.3rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+        .figuras {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin: 1.5rem 0;
+            justify-content: center;
+        }
+        .btn-figura {
+            background: #FFB6C1;
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 1rem;
+            color: #000000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .btn-figura.activa {
+            background: #000000;
+            color: white;
+            box-shadow: 0 5px 12px rgba(42,82,152,0.4);
+        }
+        .btn-figura:hover {
+            background: #2E8B57;
+            transform: scale(1.02);
+        }
+        .panel-inputs {
+            background: #FFD700;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border: 1px solid #cddfed;
+        }
+        label {
+            font-weight: 600;
+            display: block;
+            margin: 0.8rem 0 0.3rem;
+            color: #000000;
+        }
+        input {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 1rem;
+            border: 1px solid #FFB6C1;
+            font-size: 1rem;
+            transition: 0.2s;
+        }
+        input:focus {
+            border-color: #000000;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(42,82,152,0.2);
+        }
+        button[type="button"] {
+            background: #FFA500;
+            color: black;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 2rem;
+            width: 100%;
+            margin: 1rem 0 0.5rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        button[type="button"]:hover {
+            background: #FFA07A;
+            transform: translateY(-2px);
+        }
+        .resultado {
+            background: #B0E0E6;
+            border-radius: 1.2rem;
+            padding: 1rem 1.5rem;
+            font-size: 1.2rem;
+            text-align: center;
+            border-left: 6px solid #00008B;
+            margin-top: 1rem;
+            word-break: break-word;
+        }
+        .codigo-demo {
+            background: #FFFF00;
+            color: #000000;
+            padding: 0.8rem;
+            border-radius: 1rem;
+            font-family: monospace;
+            font-size: 0.8rem;
+            margin-top: 1.5rem;
+            overflow-x: auto;
+        }
+        hr {
+            margin: 1rem 0;
+            border-color: #000000;
+        }
+        footer {
+            font-size: 0.75rem;
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #000000;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <span class="badge">📐 REFURZO-VARIABLES-OPERADORES-ESTRUCTURAS DE SELECCIÓN</span>
+    <h1>🧮 <br> Calculadora de Areas (Figuras Planas)</h1>
+    <p style="color:#000000;"> Selecciona una figura, ingresa los valores y al calcular se usará <strong>if/else</strong> para elegir la fórmula correcta.</p>
+
+    <!-- Botones para seleccionar figura (estructura de selección implícita + cambio visual) -->
+    <div class="figuras" id="figurasContainer">
+        <button data-figura="cuadrado" class="btn-figura">⬛ Cuadrado</button>
+        <button data-figura="rectangulo" class="btn-figura">📏 Rectángulo</button>
+        <button data-figura="triangulo" class="btn-figura">🔺 Triángulo</button>
+        <button data-figura="circulo" class="btn-figura">⚪ Círculo</button>
+        <button data-figura="trapecio" class="btn-figura">⏢ Trapecio</button>
+    </div>
+
+    <!-- Panel dinámico de inputs según figura seleccionada -->
+    <div class="panel-inputs" id="panelInputs">
+        <!-- Aquí se inyectarán los campos con JavaScript -->
+        <p style="text-align:center; color:#000000;">➡ Elige una figura para comenzar</p>
+    </div>
+
+    <button type="button" id="calcularBtn">🧠 CALCULAR ÁREA (Variables + Operadores)</button>
+
+    <div class="resultado" id="resultadoArea">
+        💡 Cambio de Figura. Ingresa las variables y presiona "Calcular Área"
+    </div>
+
+    <!-- Sección educativa que muestra la lógica de selección usada -->
+    <div class="codigo-demo" id="explicacionCodigo">
+        🔍 <strong>Estructura de selección (if-else if) en acción:</strong><br>
+        Al hacer clic en "Calcular", el programa evalúa la figura activa y ejecuta la fórmula correspondiente.<br>
+        • Variables: almacenan base, altura, radio, etc.<br>
+        • Operadores: *, /, **, Math.PI, etc.<br>
+        • Selección: if (figura === "cuadrado") { ... } else if (...) { ... }
+    </div>
+    <footer>
+        ✅ Refuerzo práctico: Declaración de variables, operadores aritméticos, control de flujo con if/else
+    </footer>
+</div>
+
+<script>
+    // ------------------------- VARIABLES GLOBALES -------------------------
+    let figuraActual = "cuadrado";     // figura por defecto
+    // Objeto que almacena los valores dinámicos de los inputs (se actualizan en tiempo real)
+    let valoresInputs = {
+        lado: 0,
+        base: 0,
+        altura: 0,
+        radio: 0,
+        baseMayor: 0,
+        baseMenor: 0,
+        alturaTrapecio: 0
+    };
+
+    // ------------------------- FUNCIONES AUXILIARES -------------------------
+    // Actualizar el panel de inputs dependiendo de la figura seleccionada
+    function renderizarInputsSegunFigura() {
+        const panel = document.getElementById('panelInputs');
+        if (!panel) return;
+
+        let html = '';
+        switch (figuraActual) {
+            case 'cuadrado':
+                html = `
+                    <label>📐 Lado del Cuadrado (en cm):</label>
+                    <input type="number" id="ladoCuadrado" step="any" placeholder="Ejemplo: 5" value="${valoresInputs.lado}">
+                    <small style="color:#2a5298;">Fórmula: Área = lado × lado</small>
+                `;
+                break;
+            case 'rectangulo':
+                html = `
+                    <label>📏 Base del Rectángulo (cm):</label>
+                    <input type="number" id="baseRect" step="any" placeholder="Base" value="${valoresInputs.base}">
+                    <label>📐 Altura del Rectángulo (cm):</label>
+                    <input type="number" id="alturaRect" step="any" placeholder="Altura" value="${valoresInputs.altura}">
+                    <small>Fórmula: Área = base × altura</small>
+                `;
+                break;
+            case 'triangulo':
+                html = `
+                    <label>🔺Base del Triángulo (cm):</label>
+                    <input type="number" id="baseTri" step="any" placeholder="Base" value="${valoresInputs.base}">
+                    <label>📏 Altura del Triángulo (cm):</label>
+                    <input type="number" id="alturaTri" step="any" placeholder="Altura" value="${valoresInputs.altura}">
+                    <small>Fórmula:  = (base × altura) / 2</small>
+                `;
+                break;
+            case 'circulo':
+                html = `
+                    <label>⚪ Radio del Círculo (cm):</label>
+                    <input type="number" id="radioCirculo" step="any" placeholder="Radio" value="${valoresInputs.radio}">
+                    <small>Fórmula: = π × r²   (π ≈ 3.1416)</small>
+                `;
+                break;
+            case 'trapecio':
+                html = `
+                    <label>📏 Base Mayor (cm):</label>
+                    <input type="number" id="baseMayor" step="any" placeholder="Base mayor" value="${valoresInputs.baseMayor}">
+                    <label>📐 Base Menor (cm):</label>
+                    <input type="number" id="baseMenor" step="any" placeholder="Base menor" value="${valoresInputs.baseMenor}">
+                    <label>📏 Altura del trapecio (cm):</label>
+                    <input type="number" id="alturaTrapecio" step="any" placeholder="Altura" value="${valoresInputs.alturaTrapecio}">
+                    <small>Fórmula: = ((Base Mayor + Base) × altura) / 2</small>
+                `;
+                break;
+            default:
+                html = '<p> Figura Inválida</p>';
+        }
+        panel.innerHTML = html;
+
+        // Después de inyectar los inputs, agregar event listeners para actualizar valoresInputs en tiempo real
+        actualizarListenersInputs();
+    }
+
+    // Actualizar el objeto valoresInputs cuando el usuario escribe (para mantener los valores)
+    function actualizarListenersInputs() {
+        // Mapeo de IDs a propiedades del objeto valoresInputs
+        const mapeo = {
+            ladoCuadrado: 'lado',
+            baseRect: 'base',
+            alturaRect: 'altura',
+            baseTri: 'base',
+            alturaTri: 'altura',
+            radioCirculo: 'radio',
+            baseMayor: 'baseMayor',
+            baseMenor: 'baseMenor',
+            alturaTrapecio: 'alturaTrapecio'
+        };
+
+        for (const [id, propiedad] of Object.entries(mapeo)) {
+            const elemento = document.getElementById(id);
+            if (elemento) {
+                // Eliminar event listener anterior si existe (forma sencilla: remover y añadir nuevo)
+                const nuevoListener = function(e) {
+                    let valorNumerico = parseFloat(e.target.value);
+                    if (isNaN(valorNumerico)) valorNumerico = 0;
+                    valoresInputs[propiedad] = valorNumerico;
+                };
+                // Removemos listeners viejos clonando no es óptimo, mejor reemplazar: 
+                // Simplemente asignamos uno nuevo (los anteriores se sobrescriben si usamos removeEventListener no trivial)
+                // Por simplicidad, reemplazamos el evento oninput directamente
+                elemento.oninput = function(e) {
+                    let val = parseFloat(e.target.value);
+                    if (isNaN(val)) val = 0;
+                    valoresInputs[propiedad] = val;
+                    // También mantener sincronizado en algunos casos especiales
+                    if (propiedad === 'lado') valoresInputs.lado = val;
+                    if (propiedad === 'base') valoresInputs.base = val;
+                    if (propiedad === 'altura') valoresInputs.altura = val;
+                    if (propiedad === 'radio') valoresInputs.radio = val;
+                    if (propiedad === 'baseMayor') valoresInputs.baseMayor = val;
+                    if (propiedad === 'baseMenor') valoresInputs.baseMenor = val;
+                    if (propiedad === 'alturaTrapecio') valoresInputs.alturaTrapecio = val;
+                };
+                // Disparar evento para sincronizar valor inicial
+                if (elemento.oninput) elemento.oninput({ target: elemento });
+            }
+        }
+
+        // Caso adicional: si el panel se re-renderiza, garantizamos que los valores actuales se reflejen
+        // (Los input ya tienen value desde el render)
+    }
+
+    // ---------- FUNCIÓN PRINCIPAL: CÁLCULO CON ESTRUCTURAS DE SELECCIÓN ----------
+    function calcularArea() {
+        // 1. Declaración de variables locales (refuerzo)
+        let area = 0;
+        let formulaUsada = "";
+        let figura = figuraActual;     // obtenemos la figura seleccionada
+
+        // 2. Estructura de selección if - else if (¡pilar del refuerzo!)
+        if (figura === "cuadrado") {
+            // Uso de variable lado
+            let lado = valoresInputs.lado;
+            // Operador de multiplicación
+            area = lado * lado;
+            formulaUsada = 'lado × lado = ${lado} × ${lado}';
+            if (lado <= 0) {
+                mostrarError("El lado debe ser mayor a cero", figura);
+                return;
+            }
+        } 
+        else if (figura === "rectangulo") {
+            let base = valoresInputs.base;
+            let altura = valoresInputs.altura;
+            area = base * altura;
+            formulaUsada = `base × altura = ${base} × ${altura}`;
+            if (base <= 0 || altura <= 0) {
+                mostrarError("Base y altura deben ser valores positivos", figura);
+                return;
+            }
+        }
+        else if (figura === "triangulo") {
+            let base = valoresInputs.base;
+            let altura = valoresInputs.altura;
+            area = (base * altura) / 2;   // operador división
+            formulaUsada = `(base × altura) / 2 = (${base} × ${altura}) / 2`;
+            if (base <= 0 || altura <= 0) {
+                mostrarError("Base y altura deben ser mayores a cero", figura);
+                return;
+            }
+        }
+        else if (figura === "circulo") {
+            let radio = valoresInputs.radio;
+            // Operador exponente (**) y uso de Math.PI
+            area = Math.PI * (radio ** 2);
+            formulaUsada = `π × r² = π × (${radio}²) = π × ${radio ** 2}`;
+            if (radio <= 0) {
+                mostrarError("El radio debe ser positivo", figura);
+                return;
+            }
+        }
+        else if (figura === "trapecio") {
+            let baseMayor = valoresInputs.baseMayor;
+            let baseMenor = valoresInputs.baseMenor;
+            let altura = valoresInputs.alturaTrapecio;
+            area = ((baseMayor + baseMenor) * altura) / 2;
+            formulaUsada = `((baseMayor + baseMenor) × altura)/2 = ((${baseMayor} + ${baseMenor}) × ${altura})/2`;
+            if (baseMayor <= 0 || baseMenor <= 0 || altura <= 0) {
+                mostrarError("Bases y altura deben ser mayores a cero", figura);
+                return;
+            }
+        }
+        else {
+            document.getElementById('resultadoArea').innerHTML = "⚠️ Figura no reconocida. Usa los botones.";
+            return;
+        }
+
+        // Mostrar resultado con formato adecuado
+        let resultadoFormateado = area.toFixed(4);
+        let mensaje = `
+            <strong>📐 Área del ${figura.charAt(0).toUpperCase() + figura.slice(1)}:</strong> ${resultadoFormateado} cm²<br>
+            <span style="font-size:0.9rem;">🔢 Fórmula aplicada: ${formulaUsada}</span><br>
+            <span style="font-size:0.85rem; color:#2c5a2e;">✅ Variables usadas: ${obtenerVariablesSegunFigura(figura)}</span>
+        `;
+        document.getElementById('resultadoArea').innerHTML = mensaje;
+        actualizarExplicacionDinamica(figura, formulaUsada);
+    }
+
+    function mostrarError(motivo, figura) {
+        document.getElementById('resultadoArea').innerHTML = `
+            <span style="color:#c0392b;">❌ Error de validación: ${motivo}</span><br>
+            <small>Recuerda que las longitudes deben ser números positivos. Figura: ${figura}</small>
+        `;
+    }
+
+    function obtenerVariablesSegunFigura(figura) {
+        switch(figura) {
+            case 'cuadrado': return `lado = ${valoresInputs.lado}`;
+            case 'rectangulo': return `base = ${valoresInputs.base}, altura = ${valoresInputs.altura}`;
+            case 'triangulo': return `base = ${valoresInputs.base}, altura = ${valoresInputs.altura}`;
+            case 'circulo': return `radio = ${valoresInputs.radio}, π = ${Math.PI.toFixed(4)}`;
+            case 'trapecio': return `baseMayor = ${valoresInputs.baseMayor}, baseMenor = ${valoresInputs.baseMenor}, altura = ${valoresInputs.alturaTrapecio}`;
+            default: return 'variables definidas';
+        }
+    }
+
+    function actualizarExplicacionDinamica(figura, formula) {
+        const bloqueExplicacion = document.getElementById('explicacionCodigo');
+        if (bloqueExplicacion) {
+            bloqueExplicacion.innerHTML = `
+                🔍 <strong>Estructura de selección (if-else if) ejecutada:</strong><br>
+                • Figura detectada: <strong>${figura}</strong><br>
+                • Dentro del bloque <strong>if (figura === "${figura}")</strong> se declararon variables específicas.<br>
+                • Operadores utilizados: ${formula.includes('×') ? 'mul (*)' : ''} ${formula.includes('/') ? 'división (/)' : ''} ${formula.includes('²') ? 'pot (**)' : ''}<br>
+                • Cálculo realizado: ${formula}<br>
+                💡 <em>La lógica if/else if permite elegir la fórmula correcta sin mezclar operaciones.</em>
+            `;
+        }
+    }
+
+    // Evento para los botones de figura y mantener UI activa
+    function inicializarEventos() {
+        const botonesFigura = document.querySelectorAll('.btn-figura');
+        botonesFigura.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // Remover clase activa de todos
+                botonesFigura.forEach(b => b.classList.remove('activa'));
+                btn.classList.add('activa');
+                const nuevaFigura = btn.getAttribute('data-figura');
+                figuraActual = nuevaFigura;
+                
+                // Resetear valores por defecto para evitar confusiones (pero mantenemos valores previos por input si existen)
+                // Reiniciamos valoresInputs según figura para que no haya residuos (opcional)
+                if (figuraActual === 'cuadrado') valoresInputs.lado = valoresInputs.lado || 0;
+                if (figuraActual === 'rectangulo') valoresInputs.base = valoresInputs.base || 0;
+		if (figuraActual === 'rectangulo') valoresInputs.altura = valoresInputs.altura || 0;
+		if (figuraActual === 'triangulo') valoresInputs.base = valoresInputs.base || 0;
+		if (figuraActual === 'triangulo') valoresInputs.altura = valoresInputs.altura || 0;
+                if (figuraActual === 'circulo') valoresInputs.radio = valoresInputs.radio || 0;
+		if (figuraActual === 'trapecio') valoresInputs.baseMayor = valoresInputs.baseMayor || 0;
+		if (figuraActual === 'trapecio') valoresInputs.baseMenor = valoresInputs.baseMenor || 0;
+		if (figuraActual === 'trapecio') valoresInputs.alturaTrapecio = valoresInputs.alturaTrapecio || 0;
+
+                renderizarInputsSegunFigura();
+                // Limpiar resultado anterior visualmente
+                document.getElementById('resultadoArea').innerHTML = "🔄 Figura cambiada. Ingresa datos y presiona 'Calcular Área'.";
+            });
+        });
+        
+        // Evento del botón calcular
+        const calcularBtn = document.getElementById('calcularBtn');
+        calcularBtn.addEventListener('click', () => {
+            // Antes de calcular, forzar sincronización de inputs (por si acaso)
+            sincronizarValoresDesdeDOM();
+            calcularArea();
+        });
+        
+        // Sincronización manual
+        function sincronizarValoresDesdeDOM() {
+            const mapeoIds = {
+                ladoCuadrado: 'lado',
+                baseRect: 'base',
+                alturaRect: 'altura',
+                baseTri: 'base',
+                alturaTri: 'altura',
+                radioCirculo: 'radio',
+                baseMayor: 'baseMayor',
+                baseMenor: 'baseMenor',
+                alturaTrapecio: 'alturaTrapecio'
+            };
+            for (const [id, prop] of Object.entries(mapeoIds)) {
+                const el = document.getElementById(id);
+                if (el) {
+                    let v = parseFloat(el.value);
+                    if (isNaN(v)) v = 0;
+                    valoresInputs[prop] = v;
+                }
+            }
+        }
+    }
+    
+    // Al cargar la página
+    function init() {
+        figuraActual = "cuadrado";
+        valoresInputs = { lado: 0, base: 0, altura: 0, radio: 0, baseMayor: 0, baseMenor: 0, alturaTrapecio: 0 };
+        renderizarInputsSegunFigura();
+        inicializarEventos();
+        // Activar visualmente el botón cuadrado por defecto
+        const btnCuadrado = document.querySelector('.btn-figura[data-figura="cuadrado"]');
+        if(btnCuadrado) btnCuadrado.classList.add('activa');
+    }
+    
+    init();
+</script>
+</body>
+</html>

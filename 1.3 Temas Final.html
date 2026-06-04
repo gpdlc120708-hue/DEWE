@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>1.3 Construye hojas de estilo en cascada (CSS) de acuerdo con las especificaciones del World Wide Web Consortium (W3C)</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #FFFFE0;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 { color: #FF4500; }
+
+.menu { margin: 20px; }
+
+button {
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 16px;
+    background-color: #E0FFFF;
+    color: red;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover { background-color: #FFFFE0; }
+
+table {
+    margin: 20px auto;
+    border-collapse: collapse;
+    width: 95%;
+    display: none;
+    background-color: white;
+}
+
+th, td {
+    border: 1px solid #1565C0;
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+th {
+    background-color: #42A5F5;
+    color: white;
+}
+
+img {
+    width: 100%;
+    max-width: 200px;
+    display: block;
+    margin: auto;
+}
+
+video {
+    width: 300px;
+    margin: 50px auto;
+    display: none;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>Resultado de aprendizaje 1.3</h1>
+
+<div class="menu">
+    <button onclick="mostrar('A')">A) Identificación del Lenguaje de CSS</button>
+    <button onclick="mostrar('B')">B) Implementación de CSS</button>
+</div>
+
+<!-- TABLA A -->
+<table id="tablaA">
+<tr>
+<th>Concepto</th>
+<th>Descripción</th>
+<th>Imagen</th>
+</tr>
+
+<tr>
+<td>Definición de CSS</td>
+<td>Lenguaje de hojas de estilo que controla la apariencia (colores, fuentes, diseño) de un documento HTML</td>
+<td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRydHUmUmfq99SCdwOM8QcClRfZNDLxv54t2Q&s"></td>
+</tr>
+
+<tr>
+<td>Especificación Oficial de CSS</td>
+<td>Estándar mantenido por el W3C, organizado actualmente en módulos independientes que evolucionan por separado</td>
+<td><img src="https://i.imgur.com/LSZWYqw.png"></td>
+</tr>
+
+<tr>
+<td>Funcionamiento Básico</td>
+<td>El navegador crea un modelo de estilos (CSSOM), lo une al contenido (DOM) y pinta el resultado en pantalla</td>
+<td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQ82Rw-6v4zdbbZc4oqwyWMrXV9LyUG1g_-g&s"></td>
+</tr>
+
+<tr>
+<td>Formas de Inclusión</td>
+<td>Externa: Archivo. Interna: Etiquetas. En línea: Atributo</td>
+<td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTF6HBdOtyVaSzs31YV3Ceovt2yUIibH-uitA&s"></td>
+</tr>
+
+<tr>
+<td>Glosario Básico</td>
+<td>Regla: Bloque completo de estilos. Propiedad: El aspecto a cambiar. Valor: El ajuste aplicado</td>
+<td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-NPEEKsGIkBaPkMLa1PE9qZkYpOUxyLB57A&s"></td>
+</tr>
+
+<tr>
+<td>Uso de Comentarios</td>
+<td>Notas invisibles para el navegador que se encierran entre /* y */</td>
+<td><img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1683585168794/513364a3-78c8-49ed-9428-2d0c6353e67b.png"></td>
+</tr>
+
+<tr>
+<td>Sintaxis</td>
+<td>Se escribe como propiedad: valor; dentro de llaves {}. El punto y coma es obligatorio al final</td>
+<td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTomUs4KZ8sSFpUQ3BpDSW_3JRev6QLItXJw&s"></td>
+</tr>
+
+<tr>
+<td>Selectores</td>
+<td>Patrones para elegir qué elementos estilizar: por etiqueta (h1), por clase (.boton) o por ID (#menu)</td>
+<td><img src="https://web.dev/static/learn/css/selectors/image/an-image-a-css-rule-the-ced38545b4bec.svg?hl=es-419"></td>
+</tr>
+
+<tr>
+<td>Agrupación</td>
+<td>Aplicar un mismo estilo a varios selectores separándolos con comas: h1, p, span</td>
+<td><img src="https://api.fullstackpro.es/fullstackpro-back/img/courses/2bf/bf945-f634-4f46-b9f1-1fc557d98cda.png"></td>
+</tr>
+
+<tr>
+<td>Herencia</td>
+<td>Es el mecanismo por el cual ciertas propiedades aplicadas a un elemento padre</td>
+<td><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xptrm0otvatj9idia7o6.jpg"></td>
+</tr>
+
+<tr>
+<td>Colisiones</td>
+<td>Conflictos que se resuelven por cascada (orden de aparición) y especificidad (el selector más preciso gana)</td>
+<td><img src="https://dln11.wordpress.com/wp-content/uploads/2012/06/tabla_colisiones.png"></td>
+</tr>
+
+<tr>
+<td>Unidades</td>
+<td>Absolutas: Medidas fijas como px. Relativas: Medidas flexibles como %, em, rem o vh</td>
+<td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKPVYzIf9uZcbEiat_59v_YvJhJKAu1_kQCA&s"></td>
+</tr>
+
+<tr>
+<td>Colores</td>
+<td>Definidos por nombre (red), código hexadecimal (#FF0000), rgb() o hsl()</td>
+<td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFQPmu9Lk4oGghfBultDS644shWTx6r2hWjA&s"></td>
+</tr>
+
+</table>
+
+<video id="videoA" controls>
+<source src="D:\Vídeos DEWE\Identificación del Lenguaje de CSS.mp4" type="video/mp4">
+</video>
+
+<!-- TABLA B -->
+<table id="tablaB">
+<tr>
+<th>Concepto</th>
+<th>Descripción</th>
+<th>Imagen</th>
+</tr>
+
+<tr>
+<td rowspan="5">Box Model</td>
+<td>Anchura y Altura: Define el tamaño total de un elemento sumando su contenido, relleno (padding), borde y márgenes</td>
+<td><img src="https://tse2.mm.bing.net/th/id/OIP.VxDYAqQyt5GlEilOBN-aFgHaFS?pid=Api&P=0&h=180"></td>
+</tr>
+
+<tr>
+<td>Margen y relleno: Padding (Relleno): Espacio interno entre el contenido y el borde. Margin (Margen): Espacio externo que separa al elemento de otros.</td>
+<td><img src="https://lh4.googleusercontent.com/-1Piq3Ia65ws/UjHz7CeKS1I/AAAAAAAAAS0/rdDu26tLuho/s406/CU01028D_1.png"></td>
+</tr>
+
+<tr>
+<td>Bordes: delimitan el área del elemento.</td>
+<td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQj85ZrhHAHfJ0tti8_Kl9JMIiyHyb3kejX9w&s"></td>
+</tr>
+
+<tr>
+<td>Margen, relleno, bordes y boxmodel: La suma de estos elementos determina el tamaño total del elemento en pantalla.</td>
+<td><img src="https://lenguajecss.com/css/modelo-de-cajas/que-es/modelo-de-cajas.png"></td>
+</tr>
+
+<tr>
+<td>Fondos: Propiedades como background-color o background-image que visten el área del contenido y el relleno (pero no el margen)</td>
+<td><img src="https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fqsd75ur1lyq5s4dm0zar.png"></td>
+</tr>
+
+<tr>
+<td rowspan="5">Posicionamiento y Visualización</td>
+<td>Tipos de elementos: Block (Bloque): Ocupan todo el ancho disponible. Inline (En línea): Solo ocupan el espacio de su contenido.</td>
+<td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQycO3Ku1oB1WMkI0Tyr6hscL0O9ZSSf5Wi9A&s"></td>
+</tr>
+
+<tr>
+<td>Posicionamiento normal: Es el flujo natural del navegador (posición static). Los elementos aparecen uno tras otro según el orden del HTML</td>
+<td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIwUbODOkOo2lVnyeVSR-dHVhg_MPPLCoiEg&s"></td>
+</tr>
+
+<tr>
+<td>Posicionamiento float: Empuja un elemento a la izquierda o derecha (float: left/right), permitiendo que el texto u otros elementos fluyan a su alrededor</td>
+<td><img src="https://lh4.googleusercontent.com/-P-MsEKlMZi4/UkLJQdWErkI/AAAAAAAAAYA/F93J7DKS0UQ/s642/CU01034D_1.png"></td>
+</tr>
+
+<tr>
+<td>Posicionamiento absoluto: El elemento se sale del flujo normal y se posiciona respecto a su ancestro posicionado más cercano usando top, bottom, left y right</td>
+<td><img src="https://lenguajecss.com/css/posicionamiento/position-absolute/position-absolute.png"></td>
+</tr>
+
+<tr>
+<td>Visualización: Se controla con la propiedad display. Permite cambiar la naturaleza de un elemento (ej. convertir un enlace en bloque) o esconderlo completamente con display: none</td>
+<td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQjfoHItOThpogq7ShWPJPy9B2uBlTTM896g&s"></td>
+</tr>
+
+<tr>
+<td rowspan="2">Texto</td>
+<td>Tipografía: Se controla con font-family (fuentes), font-size (tamaño), font-weight (grosor como bold) y font-style (italic). Permite usar fuentes del sistema o externas (como Google Fonts)</td>
+<td><img src="https://francescricart.com/wp-content/uploads/2018/08/css-web-safe-fonts.jpg"></td>
+</tr>
+
+<tr>
+<td>Propiedades de Texto: Se refiere a la alineación (text-align), decoración como el subrayado (text-decoration), transformación a mayúsculas (text-transform) y el espaciado entre letras o líneas (line-height)</td>
+<td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUmIUsmAfYGOETECtVT3Rw5DHCw8dt_F_Nsg&s"></td>
+</tr>
+
+<tr>
+<td>Enlaces</td>
+<td>Los enlaces (<a>) se estilizan según su estado mediante pseudoclases: link (estado normal), visited (enlace ya visitado), hover (cuando el ratón está encima), active (al hacer clic).</td>
+<td><img src="https://misapuntesyacimientos.wordpress.com/wp-content/uploads/2016/02/cssrefext-3.png"></td>
+</tr>
+
+<tr>
+<td>Imágenes</td>
+<td>Se pueden manipular para que sean responsivas usando max-width: 100%. Otras propiedades comunes incluyen el ajuste de proporciones (object-fit), redondeo de esquinas (border-radius) y filtros visuales (filter)</td>
+<td><img src="https://crehana-blog.imgix.net/media/filer_public/67/39/67396497-145a-48ef-81b8-a16c3407cc0c/css-flexbox-centrar.jpeg?auto=format&q=50"></td>
+</tr>
+
+<tr>
+<td>Listas</td>
+<td>Se aplican a etiquetas ul y ol. Las propiedades clave son: list-style-type: Cambia el símbolo (puntos, números, letras, o none para quitarlos), list-style-image: Permite usar una imagen personalizada como viñeta, list-style-position: Define si la viñeta está dentro o fuera del margen del texto.</td>
+<td><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhkEXRL9iWnheBHI8hp5w6CMPoAwODCpP-qhVHPhiCMotUNXR41xUcDFeCYyS7qAc-QoWzhNXd-jIREDrvZH3hVjALdp9jb-xUAyDUCMPZzVLs09XRmE7OBrsnU_YqNtlK-L9mshBoY_Uw/s1600/sintaxis+y+resultado+de+una+lista+numerada.JPG"></td>
+</tr>
+
+<tr>
+<td>Tablas</td>
+<td>Se enfocan en mejorar la legibilidad del contenido tabular: border-collapse: Une los bordes de las celdas en uno solo (evita bordes dobles), padding: Espaciado dentro de las celdas (th y td), nth-child(even): Se usa frecuentemente para crear filas con colores alternos (efecto cebra).</td>
+<td><img src="https://codensocial.eu/resized/uploaded---tiny---images---css---l14/1050/1050/ex4.jpg"></td>
+</tr>
+
+<tr>
+<td>Formularios</td>
+<td>CSS permite personalizar elementos que por defecto son difíciles de estilizar: Inputs y Textareas: Se ajustan bordes, rellenos y el resaltado al hacer clic (:focus), Botones: Se cambian colores de fondo, bordes y el cursor (cursor: pointer), Alineación: Se suelen usar técnicas de Flexbox para alinear etiquetas (labels) con sus campos de entrada</td>
+<td><img src="https://disenowebakus.net/imagenes/articulos/formularios-html-elementos-de-control-y-estilo-con-css.jpg"></td>
+</tr>
+
+</table>
+
+<video id="videoB" controls>
+<source src="D:\Vídeos DEWE\Implementación de CSS.mp4" type="video/mp4">
+</video>
+
+<script>
+function mostrar(tipo){
+    document.getElementById("tablaA").style.display="none";
+    document.getElementById("tablaB").style.display="none";
+    document.getElementById("videoA").style.display="none";
+    document.getElementById("videoB").style.display="none";
+
+    if(tipo=="A"){
+        document.getElementById("tablaA").style.display="table";
+        document.getElementById("videoA").style.display="block";
+    } else {
+        document.getElementById("tablaB").style.display="table";
+        document.getElementById("videoB").style.display="block";
+    }
+}
+</script>
+
+<footer style="margin-top:30px; padding:15px; background:#B0E0E6; color:fuchsia; font-weight:bold;">
+Pérez De La Cruz Gerardo 603 Módulo: Diseño y Elaboración de Páginas Web
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Carreras Conalep Plantel Gustavo Baz 006</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f9;
+    }
+    nav {
+      background-color: #333;
+      color: #fff;
+      padding: 1em;
+      text-align: center;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    nav li {
+      display: inline-block;
+      margin: 0 15px;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+    nav a:hover {
+      color: #00bcd4;
+    }
+    #tabla-container {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: center;
+    }
+    th {
+      background-color: #f8f8f8;
+      color: #333;
+    }
+    img {
+      border-radius: 4px;
+      object-fit: cover;
+    }
+    h2 {
+      color: #333;
+      border-bottom: 2px solid #00bcd4;
+      padding-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <ul>
+      <li><a href="#" onclick="mostrarTabla('Conservación')">Conservación del Medio Ambiente</a></li>
+      <li><a href="#" onclick="mostrarTabla('Informática')">Informática</a></li>
+      <li><a href="#" onclick="mostrarTabla('Productividad')">Productividad Industrial</a></li>
+      <li><a href="#" onclick="mostrarTabla('Química')">Química Industrial</a></li>
+    </ul>
+  </nav>
+
+  <div id="tabla-container">
+    <p style="text-align:center; color:#666;">Selecciona una carrera del menú para ver las carreras.</p>
+  </div>
+
+  <script>
+    // 1. Base de datos de las carreras (Objeto Refactorizado)
+    const datosCarreras = {
+      'Conservación': {
+        titulo: 'Conservación del Medio Ambiente',
+        modulos: [
+          { nombre: 'Temas Selectos de Matemáticas III', desc: 'Desarrolla el razonamiento lógico y la resolución de problemas matemáticos aplicados', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXljBeOWTS_bqnD2JQSnAiVtaJ7e1FXCcVlg&s' },
+          { nombre: 'Conciencia Histórica III: Problemas Contemporáneos', desc: 'Analiza problemas actuales con base en procesos históricos', img: 'https://nosomosnonos.com/wp-content/uploads/2026/01/p11967_pikachu_at_the_museum_en_-2-_tif_jpgcopy-high.png-e1767845237103.webp' },
+	  { nombre: 'Formación Socioemocional VI', desc: 'Fortalece habilidades emocionales, sociales y la toma de decisiones', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRe9byiEUicMbjqqSUoKAdOtnXU3bqY3kjS8A&s' },
+	  { nombre: 'Emprendimiento e Innovación', desc: 'Impulsa la creación de proyectos, el liderazgo y la creatividad', img: 'https://pqs.pe/wp-content/uploads/2016/08/pqs-modelo-negocio-pokemon-go-800x450.jpg' },
+	  { nombre: 'Aplicación de Programas para la Conservación de la Flora y la Fauna', desc: 'Promueve el cuidado y protección de especies y ecosistemas', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9ju27H4yd4bOLl-eyyOg6VH20JoqAFqsYww&s' },
+	  { nombre: 'Conservación y Resguardo de los Espacios Naturales Protegidos en México', desc: 'Fomenta la conservación y manejo de áreas naturales protegidas', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpYke-gS_r8RRCqEw0MHG_VIglcMmR3EVJgQ&s' },
+	  { nombre: 'Aplicación de los Procedimientos del Sistema ISO 14001', desc: 'Enseña normas para la gestión ambiental en organizaciones', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYr-_98E_0idn7I00avivqrvFyCbrewSBytw&s' },
+	  { nombre: 'Aplicación de Energías Alternativas', desc: 'Promueve el uso de energías renovables para el cuidado ambiental', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgDkyPLez9n__Hl7WcOwCAhmpitYApX2bDNQ&s' }
+        ]
+      },
+     
+      'Productividad': {
+        titulo: 'Productividad Industrial',
+        modulos: [
+          { nombre: 'Temas Selectos de Matemáticas III', desc: 'Desarrolla el razonamiento lógico y la resolución de problemas matemáticos aplicados', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXljBeOWTS_bqnD2JQSnAiVtaJ7e1FXCcVlg&s' },
+          { nombre: 'Conciencia Histórica III: Problemas Contemporáneos', desc: 'Analiza problemas actuales con base en procesos históricos', img: 'https://nosomosnonos.com/wp-content/uploads/2026/01/p11967_pikachu_at_the_museum_en_-2-_tif_jpgcopy-high.png-e1767845237103.webp' },
+          { nombre: 'Formación Socioemocional VI', desc: 'Fortalece habilidades emocionales, sociales y la toma de decisiones', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRe9byiEUicMbjqqSUoKAdOtnXU3bqY3kjS8A&s' },
+          { nombre: 'Emprendimiento e Innovación', desc: 'Impulsa la creación de proyectos, el liderazgo y la creatividad', img: 'https://pqs.pe/wp-content/uploads/2016/08/pqs-modelo-negocio-pokemon-go-800x450.jpg' },
+          { nombre: 'Planeación y Elaboración de Proyectos', desc: 'Diseño y organización de proyectos', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQY8-yTmQgzN_eulJuI8zUnTdKLXYiyjKQjLQ&s' },
+          { nombre: 'Aplicación de Técnicas de Supervisión', desc: 'Supervisión y control de actividades', img: 'https://definicion.com/wp-content/uploads/2022/06/supervision-empresa.png' },
+          { nombre: 'Desarrollo de Nuevos Productos', desc: 'Creación e innovación de productos', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQkcrNvSPcWJSi1hdbvS2AsW3Ts_XZXk_RgQ&s' }
+        ]
+      },
+
+      'Química': {
+        titulo: 'Química Industrial',
+        modulos: [
+       	  { nombre: 'Temas Selectos de Matemáticas III', desc: 'Desarrolla el razonamiento lógico y la resolución de problemas matemáticos aplicados', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXljBeOWTS_bqnD2JQSnAiVtaJ7e1FXCcVlg&s' },
+          { nombre: 'Conciencia Histórica III: Problemas Contemporáneos', desc: 'Analiza problemas actuales con base en procesos históricos', img: 'https://nosomosnonos.com/wp-content/uploads/2026/01/p11967_pikachu_at_the_museum_en_-2-_tif_jpgcopy-high.png-e1767845237103.webp' },
+          { nombre: 'Formación Socioemocional VI', desc: 'Fortalece habilidades emocionales, sociales y la toma de decisiones', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRe9byiEUicMbjqqSUoKAdOtnXU3bqY3kjS8A&s' },
+          { nombre: 'Emprendimiento e Innovación', desc: 'Impulsa la creación de proyectos, el liderazgo y la creatividad', img: 'https://pqs.pe/wp-content/uploads/2016/08/pqs-modelo-negocio-pokemon-go-800x450.jpg' },
+          { nombre: 'Control de Calidad de Productos Químicos Terminados', desc: 'Evaluación de calidad en productos químicos', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScOHYmCVsy0ED4GQMnQTajwP1bARUQfT9AlA&s' },
+          { nombre: 'Aplicación y Seguimiento de Programas Ambientales', desc: 'Implementación de acciones para el cuidado ambiental', img: 'https://plan.jalisco.gob.mx/wp-content/uploads/2022/11/grafico_ProteccionyG-ambiental.png' },
+          { nombre: 'Automatización de Procesos Químicos', desc: 'Uso de tecnología para optimizar procesos químicos', img: 'https://blog.inimtec.com/wp-content/uploads/2022/06/automatizacion-industrial-en-la-industria-quimica.jpg' },
+          { nombre: 'Fermentación de Productos Industriales', desc: 'Producción de sustancias mediante procesos de fermentación', img: 'https://thefoodtech.com/wp-content/uploads/2024/01/Fermentacion-y-Aceites.jpg' }
+          ]
+      },
+
+      'Informática': {
+        titulo: 'Informática',
+        modulos: [
+          { nombre: 'Temas Selectos de Matemáticas III', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXljBeOWTS_bqnD2JQSnAiVtaJ7e1FXCcVlg&s' },
+          { nombre: 'Conciencia Histórica III: Problemas Contemporáneos', img: 'https://nosomosnonos.com/wp-content/uploads/2026/01/p11967_pikachu_at_the_museum_en_-2-_tif_jpgcopy-high.png-e1767845237103.webp' },
+          { nombre: 'Formación Socioemocional VI', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRe9byiEUicMbjqqSUoKAdOtnXU3bqY3kjS8A&s' },
+          { nombre: 'Emprendimiento e Innovación', img: 'https://pqs.pe/wp-content/uploads/2016/08/pqs-modelo-negocio-pokemon-go-800x450.jpg' },
+          { nombre: 'Manejo de Redes', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUNI_A9ZaJG2Pm0NJVP1P34B5PbNB0XXipqg&s' },
+          { nombre: 'Diseño y Elaboración de Páginas Web', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShRo79zgx0A2n-p3m0oUlkIFe6V6Ug030Law&s' },
+          { nombre: 'Aplicación de la Normatividad Informática', img: 'https://images.cdn-files-a.com/uploads/2246925/400_5cf440a30a55a.jpg' },
+          { nombre: 'Conexión en Redes', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfDYG4WoGqWbS42u2twcyiolb7RW8A-PpWVQ&s' }
+        ]
+      }
+    }
+	
+    function mostrarTabla(carrera) {
+  const contenedor = document.getElementById('tabla-container');
+  const datos = datosCarreras[carrera];
+
+  if (!datos) return;
+
+
+  if (carrera === "Informática") {
+
+    const filas = datos.modulos.map((m, i) => {
+
+      if (m.nombre === "Temas Selectos de Matemáticas III") {
+        return `
+          <tr>
+            <td onclick="toggleTabla(${i})" style="cursor:pointer;color:#00bcd4;font-weight:bold;">
+              ${m.nombre} 
+            </td>
+            <td>
+              <div id="tabla-${i}" style="display:none;">
+                <table style="font-size:12px;">
+                  <tr style="background:#8B1E3F;color:white;">
+                    <th>Unidad de Aprendizaje</th>
+                    <th>Resultado de Aprendizaje</th>
+                    <th>Actividad de Evaluación</th>
+ 		    <th>% Peso Específico</th>
+		    <th>% Peso Logrado</th>
+		    <th>% Peso Acumulado</th>
+                  </tr>
+
+                  <tr style="background:#e6e6e6;">
+                    <td rowspan="2">1. Análisis de la variación de funciones como una razón de cambio</td>
+                    <td>1. Explica la convergencia, divergencia y oscilación de una función mediante el uso de límites y continuidad</td>
+                    <td>1.1.1</td>
+                    <td>20</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                  <tr style="background:#e6e6e6;">
+                    <td>1.2 Analiza la tasa de cambio de la variable según los patrones del movimiento</td>
+                    <td>1.2.1</td>
+                    <td>30</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                  
+                  <tr style="background:#d6c9a8;">
+                    <td colspan="3">% PESO PARA LA UNIDAD</td>
+                    <td>50%</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+                  <tr style="background:#e6e6e6;">
+                    <td rowspan="2">2. Interpretación de la continuidad: De la suma discreta a la Integral</td>
+                    <td>2.1 Estima de la suma de Riemann hacia la antiderivada</td>
+                    <td>2.1.1</td>
+                    <td>25</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                  <tr style="background:#e6e6e6;">
+                    <td>2.2 Interpreta métodos de integración y estrategias numéricas en la resolución de problemas de áreas y volúmenes de sólidos</td>
+                    <td>2.2.1</td>
+                    <td>25</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+                  <tr style="background:#d6c9a8;">
+                    <td colspan="3">% PESO PARA LA UNIDAD</td>
+                    <td>50%</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+                  <tr style="background:#444;color:white;">
+                    <td colspan="3">PESO TOTAL DEL MÓDULO</td>
+                    <td>100%</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                </table>
+              </div>
+            </td>
+          <td><img src="${m.img}" width="200"></td>
+          </tr>
+        `;
+      }
+
+      else if (m.nombre === "Conciencia Histórica III: Problemas Contemporáneos") {
+        return `
+          <tr>
+            <td onclick="toggleTabla(${i})" style="cursor:pointer;color:#00bcd4;font-weight:bold;">
+              ${m.nombre} 
+            </td>
+            <td>
+              <div id="tabla-${i}" style="display:none;">
+                <table style="font-size:12px;">
+                  <tr style="background:#8B1E3F;color:white;">
+                    <th>Unidad de Aprendizaje</th>
+                    <th>Resultado de Aprendizaje</th>
+                    <th>Actividad de Evaluación</th>
+ 		    <th>% Peso Específico</th>
+		    <th>% Peso Logrado</th>
+		    <th>% Peso Acumulado</th>
+                  </tr>
+
+                  <tr style="background:#e6e6e6;">
+                    <td rowspan="2">1. Trayectoria histórica I: México en el contexto glocal</td>
+                    <td>1.1 Identifica las implicaciones del contexto mundial en México a través de la crisis económica de 1929, la segunda guerra mundial y la guerra fría</td>
+                    <td>1.1.1</td>
+                    <td>15</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                  <tr style="background:#e6e6e6;">
+                    <td>1.2 Explica la trayectoria histórica de los gobiernos posrevolucionarios y sus repercusiones socioculturales a nivel regional entre 1940 y 1952</td>
+                    <td>1.2.1</td>
+                    <td>30</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                 
+                  <tr style="background:#d6c9a8;">
+                    <td colspan="3">% PESO PARA LA UNIDAD</td>
+                    <td>45%</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+                  <tr style="background:#e6e6e6;">
+                    <td rowspan="2">2. Trayectoria histórica II: Crecimiento y crisis mexicana</td>
+                    <td>2.1 Evalúa las fortalezas, debilidades, oportunidades y amenazas que se generaron entre 1952 y 1976</td>
+                    <td>2.1.1</td>
+                    <td>20</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                  <tr style="background:#e6e6e6;">
+                    <td>2.2 Describe los efectos y desafíos de los sexenios tecnocráticos en el escenario de lo glocal</td>
+                    <td>2.2.1</td>
+                    <td>15</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+                  <tr style="background:#d6c9a8;">
+                    <td colspan="3">% PESO PARA LA UNIDAD</td>
+                    <td>35%</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+		  <tr style="background:#e6e6e6;">
+                    <td rowspan="2">3. Problematización de la realidad mexicana. Conciencia histórica</td>
+                    <td>3.1 Describe los principales cambios políticos, económicos y sociales que México experimenta en el siglo XXI</td>
+                    <td>3.1.1</td>
+                    <td>10</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                  <tr style="background:#e6e6e6;">
+                    <td>3.2 Describe las principales problemáticas y retos en la historia del México reciente</td>
+                    <td>3.2.1</td>
+                    <td>10</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+                  <tr style="background:#d6c9a8;">
+                    <td colspan="3">% PESO PARA LA UNIDAD</td>
+                    <td>20%</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+                  <tr style="background:#444;color:white;">
+                    <td colspan="3">PESO TOTAL DEL MÓDULO</td>
+                    <td>100%</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                </table>
+              </div>
+            </td>
+          <td><img src="${m.img}" width="200"></td>
+          </tr>
+        `;
+      }
+
+     else if (m.nombre === "Formación Socioemocional VI") {
+        return `
+          <tr>
+            <td onclick="toggleTabla(${i})" style="cursor:pointer;color:#00bcd4;font-weight:bold;">
+              ${m.nombre} 
+            </td>
+            <td>
+              <div id="tabla-${i}" style="display:none;">
+                <table style="font-size:12px;">
+                  <tr style="background:#8B1E3F;color:white;">
+                    <th>Unidad de Aprendizaje</th>
+                    <th>Resultado de Aprendizaje</th>
+                    <th>Actividad de Evaluación</th>
+ 		    <th>% Peso Específico</th>
+		    <th>% Peso Logrado</th>
+		    <th>% Peso Acumulado</th>
+                  </tr>
+
+                  <tr style="background:#e6e6e6;">
+                    <td rowspan="2">1. Aplicación de habilidades socioemocionales para el bienestar individual y colectivo</td>
+                    <td>1.1 Reconoce sus habilidades socioemocionales con el fin de favorecer su desarrollo integral</td>
+                    <td>1.1.1</td>
+                    <td>15</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                  <tr style="background:#e6e6e6;">
+                    <td>1.2 Aplica habilidades socioemocionales para afrontar situaciones cotidianas de manera asertiva a nivel personal</td>
+                    <td>1.2.1</td>
+                    <td>25</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                  
+                  <tr style="background:#d6c9a8;">
+                    <td colspan="3">% PESO PARA LA UNIDAD</td>
+                    <td>40%</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+                  <tr style="background:#e6e6e6;">
+                    <td rowspan="2">2. Proyecto de vida para la contribución en comunidad</td>
+                    <td>2.1 Aplica sus habilidades socioemocionales para el logro de objetivos y proyectos sociales de bienestar colectivo</td>
+                    <td>2.1.1</td>
+                    <td>30</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                  <tr style="background:#e6e6e6;">
+                    <td>2.2 Muestra sus habilidades socioemocionales al enfrentar y resolver sus propios retos, proponiendo soluciones que promuevan el bienestar colectivo y reconociéndose como un agente de cambio en su entorno</td>
+                    <td>2.2.1</td>
+                    <td>30</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+                  <tr style="background:#d6c9a8;">
+                    <td colspan="3">% PESO PARA LA UNIDAD</td>
+                    <td>60%</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+                  <tr style="background:#444;color:white;">
+                    <td colspan="3">PESO TOTAL DEL MÓDULO</td>
+                    <td>100%</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                </table>
+              </div>
+            </td>
+          <td><img src="${m.img}" width="200"></td>
+          </tr>
+        `;
+      }
+
+      else if (m.nombre === "Emprendimiento e Innovación") {
+        return `
+          <tr>
+            <td onclick="toggleTabla(${i})" style="cursor:pointer;color:#00bcd4;font-weight:bold;">
+              ${m.nombre} 
+            </td>
+            <td>
+              <div id="tabla-${i}" style="display:none;">
+                <table style="font-size:12px;">
+                  <tr style="background:#8B1E3F;color:white;">
+                    <th>Unidad de Aprendizaje</th>
+                    <th>Resultado de Aprendizaje</th>
+                    <th>Actividad de Evaluación</th>
+ 		    <th>% Peso Específico</th>
+		    <th>% Peso Logrado</th>
+		    <th>% Peso Acumulado</th>
+                  </tr>
+
+                  <tr style="background:#e6e6e6;">
+                    <td rowspan="2">1. Fundamentos del emprendimiento e innovación</td>
+                    <td>1.1 Identifica los fundamentos del emprendimiento, su clasificación, impacto económico y social, mediante el análisis de casos reales o simulados</td>
+                    <td>1.1.1</td>
+                    <td>10</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                  <tr style="background:#e6e6e6;">
+                    <td>1.2 Analiza los fundamentos de la innovación, así como sus diferentes tipos y su aplicación en contextos empresariales y sociales</td>
+                    <td>1.2.1</td>
+                    <td>10</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                 
+                  <tr style="background:#d6c9a8;">
+                    <td colspan="3">% PESO PARA LA UNIDAD</td>
+                    <td>20%</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+                  <tr style="background:#e6e6e6;">
+                    <td rowspan="2">2. Elaboración de un plan emprendedor sostenible</td>
+                    <td>2.1 Diseña una idea de negocio o proyecto emprendedor, con base en el análisis de necesidades, recursos y oportunidades del entorno</td>
+                    <td>2.1.1</td>
+                    <td>20</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                  <tr style="background:#e6e6e6;">
+                    <td>2.2 Desarrolla un proyecto emprendedor, integrando los elementos básicos de planeación, organización, financiamiento, sostenibilidad y proyección de resultados</td>
+                    <td>2.2.1</td>
+                    <td>30</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+                  <tr style="background:#d6c9a8;">
+                    <td colspan="3">% PESO PARA LA UNIDAD</td>
+                    <td>50%</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+		  <tr style="background:#e6e6e6;">
+                    <td rowspan="2">3. Comunicación y presentación del proyecto emprendedor.</td>
+                    <td>3.1 Prepara material visual y audiovisual para comunicar los aspectos clave de su proyecto emprendedor, utilizando herramientas digitales y elementos visuales</td>
+                    <td>3.1.1</td>
+                    <td>15</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                  <tr style="background:#e6e6e6;">
+                    <td>3.2 Presenta su proyecto emprendedor a través de estrategias de comunicación oral y escrita, empleando recursos digitales y técnicas de persuasión, para promover su viabilidad e impacto</td>
+                    <td>3.2.1</td>
+                    <td>15</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+                  <tr style="background:#d6c9a8;">
+                    <td colspan="3">% PESO PARA LA UNIDAD</td>
+                    <td>0%</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+                  <tr style="background:#444;color:white;">
+                    <td colspan="3">PESO TOTAL DEL MÓDULO</td>
+                    <td>100%</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                </table>
+              </div>
+            </td>
+          <td><img src="${m.img}" width="200"></td>
+          </tr>
+        `;
+      }
+
+      else if (m.nombre === "Manejo de Redes") {
+        return `
+          <tr>
+            <td onclick="toggleTabla(${i})" style="cursor:pointer;color:#00bcd4;font-weight:bold;">
+              ${m.nombre} 
+            </td>
+            <td>
+              <div id="tabla-${i}" style="display:none;">
+                <table style="font-size:12px;">
+                  <tr style="background:#8B1E3F;color:white;">
+                    <th>Unidad de Aprendizaje</th>
+                    <th>Resultado de Aprendizaje</th>
+                    <th>Actividad de Evaluación</th>
+ 		    <th>% Peso Específico</th>
+		    <th>% Peso Logrado</th>
+		    <th>% Peso Acumulado</th>
+                  </tr>
+
+                  <tr style="background:#e6e6e6;">
+                    <td rowspan="2">1. Implementación de dispositivos de red inalámbricos</td>
+                    <td>1.1 Configura el acceso a los recursos de la red inalámbrica a través de las herramientas que proveen los dispositivos de red</td>
+                    <td>1.1.1</td>
+                    <td>15</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                  <tr style="background:#e6e6e6;">
+                    <td>1.2 Configura los parámetros de seguridad en los dispositivos de red inalámbricos por medio de las herramientas que proveen los dispositivos de red</td>
+                    <td>1.2.1</td>
+                    <td>10</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                 
+                  <tr style="background:#d6c9a8;">
+                    <td colspan="3">% PESO PARA LA UNIDAD</td>
+                    <td>25%</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+                  <tr style="background:#e6e6e6;">
+                    <td rowspan="2">2. Implementación de dispositivos de ruteo y conmutación de red</td>
+                    <td>2.1 Configura los servicios de conectividad en los dispositivos de ruteo y conmutación de una LAN Ethernet, mediante los comandos del Sistema Operativo Internetwork (IOS)</td>
+                    <td>2.1.1</td>
+                    <td>15</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                  <tr style="background:#e6e6e6;">
+                    <td>2.2 Configura los servicios integrados en dispositivos de ruteo y conmutación, basado en los programas del Sistema Operativo de Internetwork</td>
+                    <td>2.2.1</td>
+                    <td>30</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+                  <tr style="background:#d6c9a8;">
+                    <td colspan="3">% PESO PARA LA UNIDAD</td>
+                    <td>45%</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+		  <tr style="background:#e6e6e6;">
+                    <td rowspan="3">3. Administración de redes de áreas locales virtuales</td>
+                    <td>3.1 Crea redes de áreas locales virtuales (VLAN) y enlaces troncales con base en la asignación de los puertos de acceso en los switches de una red</td>
+                    <td>3.1.1</td>
+                    <td>10</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                  <tr style="background:#e6e6e6;">
+                    <td>3.2 Configura el protocolo de enlaces troncales de VLAN (VTP) mediante la administración de los dispositivos de una red</td>
+                    <td>3.2.1</td>
+                    <td>10</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                  <tr style="background:#e6e6e6;">
+                    <td>3.3 Establece la conectividad entre VLAN´s a través de la configuración del enrutamiento de dispositivos de conmutación en las redes de este tipo</td>
+                    <td>3.3.1</td>
+                    <td>10</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+                  <tr style="background:#d6c9a8;">
+                    <td colspan="3">% PESO PARA LA UNIDAD</td>
+                    <td>30%</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+                  <tr style="background:#444;color:white;">
+                    <td colspan="3">PESO TOTAL DEL MÓDULO</td>
+                    <td>100%</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                </table>
+              </div>
+            </td>
+          <td><img src="${m.img}" width="200"></td>
+          </tr>
+        `;
+      }
+
+      else if (m.nombre === "Diseño y Elaboración de Páginas Web") {
+        return `
+          <tr>
+            <td onclick="toggleTabla(${i})" style="cursor:pointer;color:#00bcd4;font-weight:bold;">
+              ${m.nombre} 
+            </td>
+            <td>
+              <div id="tabla-${i}" style="display:none;">
+                <table style="font-size:12px;">
+                  <tr style="background:#8B1E3F;color:white;">
+                    <th>Unidad de Aprendizaje</th>
+                    <th>Resultado de Aprendizaje</th>
+                    <th>Actividad de Evaluación</th>
+ 		    <th>% Peso Específico</th>
+		    <th>% Peso Logrado</th>
+		    <th>% Peso Acumulado</th>
+                  </tr>
+
+                  <tr style="background:#e6e6e6;">
+                    <td rowspan="3">1. Desarrollo de Páginas Web Estáticas</td>
+                    <td>1.1 Diseña la estructura del sitio web con base en las mejores prácticas y los requerimientos del cliente</td>
+                    <td>1.1.1</td>
+                    <td>10</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                  <tr style="background:#e6e6e6;">
+                    <td>1.2 Elabora páginas web estáticas haciendo uso del lenguaje de etiquetas HTML</td>
+                    <td>1.2.1</td>
+                    <td>25</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                  <tr style="background:#e6e6e6;">
+                    <td>1.3 Construye hojas de estilo en cascada (CSS) de acuerdo con las especificaciones del World Wide Web Consortium (W3C)</td>
+                    <td>1.3.1</td>
+                    <td>25</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+                  <tr style="background:#d6c9a8;">
+                    <td colspan="3">% PESO PARA LA UNIDAD</td>
+                    <td>60%</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+                  <tr style="background:#e6e6e6;">
+                    <td rowspan="2">2. Desarrollo de páginas web dinámicas</td>
+                    <td>2.1 Implementa interactividad a las páginas web, mediante el desarrollo de código de programación en un lenguaje script</td>
+                    <td>2.1.1</td>
+                    <td>20</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                  <tr style="background:#e6e6e6;">
+                    <td>2.2 Establece el acceso a bases de datos en páginas web mediante el desarrollo de código en un lenguaje de programación</td>
+                    <td>2.2.1</td>
+                    <td>20</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+                  <tr style="background:#d6c9a8;">
+                    <td colspan="3">% PESO PARA LA UNIDAD</td>
+                    <td>40%</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+                  <tr style="background:#444;color:white;">
+                    <td colspan="3">PESO TOTAL DEL MÓDULO</td>
+                    <td>100%</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                </table>
+              </div>
+            </td>
+          <td><img src="${m.img}" width="200"></td>
+          </tr>
+        `;
+      }
+
+     else if (m.nombre === "Aplicación de la Normatividad Informática") {
+        return `
+          <tr>
+            <td onclick="toggleTabla(${i})" style="cursor:pointer;color:#00bcd4;font-weight:bold;">
+              ${m.nombre} 
+            </td>
+            <td>
+              <div id="tabla-${i}" style="display:none;">
+                <table style="font-size:12px;">
+                  <tr style="background:#8B1E3F;color:white;">
+                    <th>Unidad de Aprendizaje</th>
+                    <th>Resultado de Aprendizaje</th>
+                    <th>Actividad de Evaluación</th>
+ 		    <th>% Peso Específico</th>
+		    <th>% Peso Logrado</th>
+		    <th>% Peso Acumulado</th>
+                  </tr>
+
+                  <tr style="background:#e6e6e6;">
+                    <td rowspan="2">1. Descripción de la normatividad del derecho informático</td>
+                    <td>1.1 Identifica el marco jurídico del derecho informático relativo al manejo de la información y a la función del usuario, conforme a las leyes, normas y principios establecidos en México</td>
+                    <td>1.1.1</td>
+                    <td>25</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                  <tr style="background:#e6e6e6;">
+                    <td>1.2 Identifica el marco jurídico del derecho informático relativo al software y al equipo de cómputo, conforme a las leyes, normas y principios de la legislación informática en México</td>
+                    <td>1.2.1</td>
+                    <td>25</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                  
+                  <tr style="background:#d6c9a8;">
+                    <td colspan="3">% PESO PARA LA UNIDAD</td>
+                    <td>50%</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+                  <tr style="background:#e6e6e6;">
+                    <td rowspan="2">2. Aplicación de la normatividad que regula la gestión de las tecnologías de la información</td>
+                    <td>2.1 Describe las políticas de uso aplicables al equipo de cómputo y de telecomunicaciones, de acuerdo con la normatividad establecida en una organización</td>
+                    <td>2.1.1</td>
+                    <td>25</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                  <tr style="background:#e6e6e6;">
+                    <td>2.2 Aplica la normatividad y controles al software y sistemas de información, de acuerdo con las normas establecidas en una organización</td>
+                    <td>2.2.1</td>
+                    <td>25</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+                  <tr style="background:#d6c9a8;">
+                    <td colspan="3">% PESO PARA LA UNIDAD</td>
+                    <td>50%</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+                  <tr style="background:#444;color:white;">
+                    <td colspan="3">PESO TOTAL DEL MÓDULO</td>
+                    <td>100%</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                </table>
+              </div>
+            </td>
+          <td><img src="${m.img}" width="200"></td>
+          </tr>
+        `;
+      }
+
+      else if (m.nombre === "Conexión en Redes") {
+        return `
+          <tr>
+            <td onclick="toggleTabla(${i})" style="cursor:pointer;color:#00bcd4;font-weight:bold;">
+              ${m.nombre} 
+            </td>
+            <td>
+              <div id="tabla-${i}" style="display:none;">
+                <table style="font-size:12px;">
+                  <tr style="background:#8B1E3F;color:white;">
+                    <th>Unidad de Aprendizaje</th>
+                    <th>Resultado de Aprendizaje</th>
+                    <th>Actividad de Evaluación</th>
+ 		    <th>% Peso Específico</th>
+		    <th>% Peso Logrado</th>
+		    <th>% Peso Acumulado</th>
+                  </tr>
+
+                  <tr style="background:#e6e6e6;">
+                    <td rowspan="2">1. Configuración de área única y seguridad en redes, empleando controles de acceso, funciones y protocolos para la protección</td>
+                    <td>1.1 Realiza el protocolo de routing OSPFv2 empleando los paquetes y parámetros definidos para generar enlaces y rutas de red que conlleve a la configuración</td>
+                    <td>1.1.1</td>
+                    <td>15</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                  <tr style="background:#e6e6e6;">
+                    <td>1.2 Establece la configuración de controles de acceso y redes internas empleando parámetros, direccionamientos, y comandos de protección a fin de regular el tráfico entrante y saliente de una o varias subredes</td>
+                    <td>1.2.1</td>
+                    <td>15</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                 
+                  <tr style="background:#d6c9a8;">
+                    <td colspan="3">% PESO PARA LA UNIDAD</td>
+                    <td>30%</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+                  <tr style="background:#e6e6e6;">
+                    <td rowspan="2">2. Asignación de direcciones y conexiones de red para la conectividad integral, utilizando métodos de enlace, transmisión y protección</td>
+                    <td>2.1 Configura servicios NAT haciendo uso de parámetros y protocolos de funcionamiento para proporcionar escalabilidad de dirección de red</td>
+                    <td>2.1.1</td>
+                    <td>15</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                  <tr style="background:#e6e6e6;">
+                    <td>2.2 Verifica mecanismos de conectividad y protección de datos aplicando técnicas y requisitos de conexión para garantizar la privacidad de la información enviada</td>
+                    <td>2.2.1</td>
+                    <td>15</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+                  <tr style="background:#d6c9a8;">
+                    <td colspan="3">% PESO PARA LA UNIDAD</td>
+                    <td>30%</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+		  <tr style="background:#e6e6e6;">
+                    <td rowspan="2">3. Configuración y automatización de redes para establecer conectividad integral, empleando herramientas de diseño y administración</td>
+                    <td>3.1 Configura una red empresarial empleando protocolos y parámetros de administración y diseño predeterminados a fin de asegurar la comunicación de red</td>
+                    <td>3.1.1</td>
+                    <td>20</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                  <tr style="background:#e6e6e6;">
+                    <td>3.2 Automatiza redes de comunicación a través de herramientas de administración, configuración y lenguajes de datos predeterminados que permitan la comunicación de red</td>
+                    <td>3.2.1</td>
+                    <td>20</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+                  <tr style="background:#d6c9a8;">
+                    <td colspan="3">% PESO PARA LA UNIDAD</td>
+                    <td>40%</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+
+                  <tr style="background:#444;color:white;">
+                    <td colspan="3">PESO TOTAL DEL MÓDULO</td>
+                    <td>100%</td>
+		    <td></td>
+		    <td></td>
+                  </tr>
+                </table>
+              </div>
+            </td>
+          <td><img src="${m.img}" width="100"></td>
+          </tr>
+        `;
+      }
+
+      return `
+        <tr>
+          <td>${m.nombre}</td>
+          <td></td>
+          <td><img src="${m.img}" width="200"></td>
+        </tr>
+      `;
+    }).join('');
+
+    contenedor.innerHTML = `
+      <h2>${datos.titulo}</h2>
+      <table>
+        <tr>
+          <th>Módulos</th>
+          <th>Tabla de Ponderación</th>
+          <th>Imagen</th>
+        </tr>
+        ${filas}
+      </table>
+    `;
+    return;
+  }
+
+  const filas = datos.modulos.map(m => `
+    <tr>
+      <td>${m.nombre}</td>
+      <td>${m.desc}</td>
+      <td><img src="${m.img}"></td>
+    </tr>
+  `).join('');
+
+  contenedor.innerHTML = `
+    <h2>${datos.titulo}</h2>
+    <table>
+      <tr>
+        <th>Materia</th>
+        <th>Descripción</th>
+        <th>Imagen</th>
+      </tr>
+      ${filas}
+    </table>
+  `;
+if (carrera === "Conservación" || carrera === "Productividad" || carrera === "Química") {
+        const imgs = document.querySelectorAll('#tabla-container img');
+        imgs.forEach(img => {
+          img.style.width = "250px";
+        });
+      }
+}
+
+function toggleTabla(id) {
+  const t = document.getElementById('tabla-' + id);
+  t.style.display = (t.style.display === "none") ? "block" : "none";
+}
+
+</script>
+
+
+</body>
+</html>

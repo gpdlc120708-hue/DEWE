@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cronograma de Investigación - Estrategias Didácticas con Tecnología</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #E0FFFF 0%, #00BFFF 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: LightCyan;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(255, 255, 255);
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Encabezado */
+        .header {
+            background: linear-gradient(135deg, #FFFACD 0%, #FFFF00 100%);
+            color: black;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header h2 {
+            font-size: 18px;
+            font-weight: normal;
+            opacity: 0.9;
+        }
+
+        .header .fecha-total {
+            margin-top: 15px;
+            background: rgba(255, 215, 0);
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+        }
+
+        /* Navegación de semanas */
+        .semana-nav {
+            display: flex;
+            background: #006400;
+            border-bottom: 1px solid #FFFFE0;
+            flex-wrap: wrap;
+        }
+
+        .semana-btn {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            background: #EE82EE;
+        }
+
+        .semana-btn:hover {
+            background: #D8BFD8;
+        }
+
+        .semana-btn.active {
+            background: Lavender;
+            border-bottom-color: #000000;
+            color: #000000;
+        }
+
+        /* Contenido de cada semana */
+        .contenido-semana {
+            display: none;
+            padding: 30px;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .contenido-semana.active {
+            display: block;
+        }
+
+        .semana-titulo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #FFD700;
+        }
+
+        .semana-numero {
+            font-size: 24px;
+            font-weight: bold;
+            color: #000000;
+        }
+
+        .semana-fechas {
+            background: #FFE4B5;
+            color: black;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .tiempo-total {
+            background: #ADFF2F;
+            color: black;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* Tabla de actividades */
+        .tabla-actividades {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+        }
+
+        .tabla-actividades th {
+            background: #1E90FF;
+            color: black;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .tabla-actividades td {
+            padding: 12px;
+            border-bottom: 1px solid #000000;
+            vertical-align: top;
+        }
+
+        .tabla-actividades tr:hover {
+            background: #40E0D0;
+        }
+
+        .actividad-nombre {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .actividad-tiempo {
+            text-align: center;
+            font-weight: bold;
+            color: #28A745;
+            white-space: nowrap;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #00CED1;
+            color: Turquoise;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 11px;
+            margin-left: 8px;
+        }
+
+        /* Resumen final */
+        .resumen {
+            background: linear-gradient(135deg, #90EE90 0%, #98FB98 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .resumen h3 {
+            color: #1E3C72;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .resumen-grid {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .resumen-card {
+            background: Lavender;
+            padding: 15px 25px;
+            border-radius: 15px;
+            text-align: center;
+            min-width: 120px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .resumen-card .semana {
+            font-size: 14px;
+            color: #000000;
+        }
+
+        .resumen-card .horas {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2A5298;
+        }
+
+        .resumen-card .label {
+            font-size: 12px;
+            color: #000000;
+        }
+
+        .total-card {
+            background: #FFFFE0;
+            color: black;
+        }
+
+        .total-card .horas {
+            color: #FFA500;
+        }
+
+        .total-card .semana {
+            color: rgba(0, 0, 0);
+        }
+
+        .footer {
+            background: #FFC0CB;
+            color: black;
+            text-align: center;
+            padding: 20px;
+            font-size: 15px;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .semana-nav {
+                flex-direction: column;
+            }
+            .tabla-actividades th, 
+            .tabla-actividades td {
+                font-size: 12px;
+                padding: 8px;
+            }
+            .contenido-semana {
+                padding: 15px;
+            }
+            .resumen-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>📖 Cronograma R.A.1.2</h1>
+        <h2>Elabora Páginas Web Estáticas Haciendo Uso Del Lenguaje De Etiquetas HTML</h2>
+        <h2>CONALEP Plantel Gustavo Baz</h2>
+        <div class="fecha-total">
+            🕛 Duración total: 2 de Marzo al 27 de Marzo de 2026 | 🕛 Total: 32 horas
+        </div>
+    </div>
+
+    <div class="semana-nav">
+        <div class="semana-btn active" data-semana="1">📌 Semana 1<br><small>02-06 Marzo</small></div>
+        <div class="semana-btn" data-semana="2">📌 Semana 2<br><small>09-13 Marzo</small></div>
+        <div class="semana-btn" data-semana="3">📌 Semana 3<br><small>16-20 Marzo</small></div>
+        <div class="semana-btn" data-semana="4">📌 Semana 4<br><small>23-27 Marzo</small></div>
+    </div>
+
+    <!-- Semana 1 -->
+    <div id="semana1" class="contenido-semana active">
+        <div class="semana-titulo">
+            <span class="semana-numero">📅 Semana 1</span>
+            <span class="semana-fechas">📅 02 al 06 de Marzo de 2026</span>
+            <span class="tiempo-total">⏱️ Total: 8 horas</span>
+        </div>
+        <table class="tabla-actividades">
+            <thead>
+                <tr><th>Actividad</th><th>Tiempo estimado</th></tr>
+            </thead>
+            <tbody>
+                <tr><td class="actividad-nombre">1. Elaboración de Cártel</td><td class="actividad-tiempo">30 minutos</td></tr>
+                <tr><td class="actividad-nombre">2. Contestar Cártel de Otra Pareja</td><td class="actividad-tiempo">30 minutos</td></tr>
+                <tr><td class="actividad-nombre">3. Entregar Cártel</td><td class="actividad-tiempo">5 minutos</td></tr>
+                <tr><td class="actividad-nombre">4. Investigación Marco Teórico de Tablas y Listas HTML</td><td class="actividad-tiempo">35 minutos</td></tr>
+                <tr><td class="actividad-nombre">5. Elaboración de 1er Código Enviado por la Profesora</td><td class="actividad-tiempo">35 minutos</td></tr>
+                <tr><td class="actividad-nombre">6. Elaboración de 2do Código de Listas Modificado sobre Módulos de Sexto Semestre</td><td class="actividad-tiempo">35 minutos</td></tr>
+		<tr><td class="actividad-nombre">7. Elaboración de Documento con Portada, Introducción, Marco Teórico, Anexos, Ejecución y Referencias</td><td class="actividad-tiempo">35 minutos</td></tr>
+		<tr><td class="actividad-nombre">8. Envío de Documento por Correo a la Profesora</td><td class="actividad-tiempo">5 minutos</td></tr>		
+		<tr><td class="actividad-nombre">9. Marco Teórico Formato de Texto, Hipervínculos, Imágenes, Elementos Multimedia, Listas, Tablas y Formularios</td><td class="actividad-tiempo">35 minutos</td></tr>
+		<tr><td class="actividad-nombre">10. Elaboración de 1er Código, Manejo de Imágenes con Tipos de Listas</td><td class="actividad-tiempo">25 minutos</td></tr>
+		<tr><td class="actividad-nombre">11. Elaboración de 2do Código, Estructura de Esqueleto</td><td class="actividad-tiempo">30 minutos</td></tr>
+		<tr><td class="actividad-nombre">12. Elaboración de 3er Código, Estructura Maestra</td><td class="actividad-tiempo">30 minutos</td></tr>
+		<tr><td class="actividad-nombre">13. Elaboración de 4to Código, Jerarquía y Formato de Texto</td><td class="actividad-tiempo">30 minutos</td></tr>
+		<tr><td class="actividad-nombre">14. Elaboración de 5to Código, Multimedia y Enlaces</td><td class="actividad-tiempo">30 minutos</td></tr>
+		<tr><td class="actividad-nombre">15. Elaboración de 6to Código, Estructurando Datos</td><td class="actividad-tiempo">30 minutos</td></tr>
+		<tr><td class="actividad-nombre">16. Elaboración de Documento con Portada, Introducción, Marco Teórico, Anexos, Ejecución y Referencias</td><td class="actividad-tiempo">50 minutos</td></tr>
+		<tr><td class="actividad-nombre">17. Envío de Documento por Correo a la Profesora</td><td class="actividad-tiempo">5 minutos</td></tr>
+		<tr><td class="actividad-nombre">18. Entrega de Documento de Forma Física a la Profesora</td><td class="actividad-tiempo">5 minutos</td></tr>
+            </tbody>
+        </table>
+        <div style="background:#EE82EE; padding:12px; border-radius:10px;">
+            ✅ <strong>Entregable:</strong> Actividad con Fines de Evaluación R.A.1.2 "Primera Parte"
+        </div>
+    </div>
+
+    <!-- Semana 2 -->
+    <div id="semana2" class="contenido-semana">
+        <div class="semana-titulo">
+            <span class="semana-numero">📅 Semana 2</span>
+            <span class="semana-fechas">📅 09 al 13 de Marzo de 2026</span>
+            <span class="tiempo-total">🕛 Total: 8 horas</span>
+        </div>
+        <table class="tabla-actividades">
+            <thead><tr><th>Actividad</th><th>Tiempo estimado</th></tr></thead>
+            <tbody>
+                <tr><td class="actividad-nombre">1. Marco Teórico, Colores de Fondo y en Letras ya sea Hexadecimal o en Inglés, Imágenes en Mosaico, Menús</td><td class="actividad-tiempo">50 minutos</td></tr>
+                <tr><td class="actividad-nombre">2. Elaboración de Código, Imágenes en Mosaico</td><td class="actividad-tiempo">1 hora</td></tr>
+                <tr><td class="actividad-nombre">3. Elaboración de Código, Imágenes en Mosaico Modificado por Alumnos</td><td class="actividad-tiempo">1 hora 30 minutos</td></tr>
+                <tr><td class="actividad-nombre">4. Elaboración de Código, Menú (Playa, Montaña, Ciudad)</td><td class="actividad-tiempo">1 hora 40 minutos</td></tr>
+                <tr><td class="actividad-nombre">5. Elaboración de Código, Menú (Carreras y Módulos de la Carrera de Informática)</td><td class="actividad-tiempo">2 horas</td></tr>
+                <tr><td class="actividad-nombre">6. Integración de Marco Teórico, Anexos, Ejecución, Referencias al 1er Documento y Extensión de Introducción y Conclusión</td><td class="actividad-tiempo">50 minutos</td></tr>
+		<tr><td class="actividad-nombre">7. Envío de Documento por Correo a la Profesora</td><td class="actividad-tiempo">5 minutos</td></tr>
+		<tr><td class="actividad-nombre">8. Entrega de Documento de Forma Física a la Profesora</td><td class="actividad-tiempo">5 minutos</td></tr>
+
+            </tbody>
+        </table>
+        <div style="background:#EE82EE; padding:12px; border-radius:10px;">
+            ✅ <strong>Entregable:</strong> Actividad con Fines de Evaluación R.A.1.2 "Segunda Parte"
+        </div>
+    </div>
+
+    <!-- Semana 3 -->
+    <div id="semana3" class="contenido-semana">
+        <div class="semana-titulo">
+            <span class="semana-numero">📅 Semana 3</span>
+            <span class="semana-fechas">📅 16 al 20 de Marzo de 2026</span>
+            <span class="tiempo-total">🕛 Total: 8 horas</span>
+        </div>
+        <table class="tabla-actividades">
+            <thead><tr><th>Actividad</th><th>Tiempo estimado</th></tr></thead>
+            <tbody>
+                <tr><td class="actividad-nombre">1. Marco Teórico, Imágenes en Tablas</td><td class="actividad-tiempo">50 minutos</td></tr>
+                <tr><td class="actividad-nombre">2. Elaboración de Código, Tabla de una Tienda de Ropa</td><td class="actividad-tiempo">1 hora 30 minutos</td></tr>
+                <tr><td class="actividad-nombre">3. Elaboración de Código, Tabla de Carreras Universitarias</td><td class="actividad-tiempo">2 horas 10 minutos</td></tr>
+                <tr><td class="actividad-nombre">4. Elaboración de Código, Tabla de Carreras Conalep</td><td class="actividad-tiempo">2 horas 20 minutos</td></tr>
+                <tr><td class="actividad-nombre">5. Integración de Marco Teórico, Anexos, Ejecución, Referencias al Documento Enviado la Semana Pasada</td><td class="actividad-tiempo">1 hora</td></tr>
+		<tr><td class="actividad-nombre">6. Envío de Documento por Correo a la Profesora</td><td class="actividad-tiempo">5 minutos</td></tr>
+		<tr><td class="actividad-nombre">7. Entrega de Documento de Forma Física a la Profesora</td><td class="actividad-tiempo">5 minutos</td></tr>
+
+            </tbody>
+        </table>
+        <div style="background:#EE82EE; padding:12px; border-radius:10px;">
+            ✅ <strong>Entregable:</strong> Actividad con Fines de Evaluación R.A.1.2 "Tercera Parte"
+        </div>
+    </div>
+
+    <!-- Semana 4 -->
+    <div id="semana4" class="contenido-semana">
+        <div class="semana-titulo">
+            <span class="semana-numero">📅 Semana 4</span>
+            <span class="semana-fechas">📅 23 al 27 de Marzo de 2026</span>
+            <span class="tiempo-total">🕛 Total: 8 horas</span>
+        </div>
+        <table class="tabla-actividades">
+            <thead><tr><th>Actividad</th><th>Tiempo estimado</th></tr></thead>
+            <tbody>
+                <tr><td class="actividad-nombre">1. Marco Teórico Sobre Vídeos</td><td class="actividad-tiempo">50 minutos</td></tr>
+                <tr><td class="actividad-nombre">2. Elaboración de Código, Vídeo Sobre el Módulo de Diseño y Elaboración de Páginas Web</td><td class="actividad-tiempo">2 Horas</td></tr>
+                <tr><td class="actividad-nombre">3. Elaboración de Código, Vídeo Sobre Tipos de Redes de Computadoras</td><td class="actividad-tiempo">3 horas 40 minutos</td></tr>
+                <tr><td class="actividad-nombre">4. Integración de Marco Teórico, Anexos, Ejecución, Referencias al Documento Enviado la Semana Pasada</td><td class="actividad-tiempo">1 Hora 40 minutos</td></tr>
+                <tr><td class="actividad-nombre">5. Envío de Documento por Correo a la Profesora</td><td class="actividad-tiempo">5 minutos</td></tr>
+                <tr><td class="actividad-nombre">6. Entrega de Documento de Forma Física a la Profesora</td><td class="actividad-tiempo">5 minutos</td></tr>
+            </tbody>
+        </table>
+        <div style="background:#EE82EE; padding:12px; border-radius:10px;">
+            ✅ <strong>Entregable:</strong> Actividad con Fines de Evaluación R.A.1.2 "Cuarta Parte"
+        </div>
+    </div>
+
+    <!-- Resumen final -->
+    <div class="resumen">
+        <h3>📊 Resumen de tiempo por semana</h3>
+        <div class="resumen-grid">
+            <div class="resumen-card"><div class="semana">Semana 1</div><div class="horas">8</div><div class="label">horas</div></div>
+            <div class="resumen-card"><div class="semana">Semana 2</div><div class="horas">8</div><div class="label">horas</div></div>
+            <div class="resumen-card"><div class="semana">Semana 3</div><div class="horas">8</div><div class="label">horas</div></div>
+            <div class="resumen-card"><div class="semana">Semana 4</div><div class="horas">8</div><div class="label">horas</div></div>
+            <div class="resumen-card total-card"><div class="semana">📅 Total</div><div class="horas">32</div><div class="label">horas</div></div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>📕  Pérez De La Cruz Gerardo 603I-M | Alumno:</p>
+        <p>👩‍🏫  Diseño y Elaboración de Páginas Web | Módulo: </p>
+        <p>📆  Lic. Rosa Edith Martínez Hernández | Profesora: </p>
+    </div>
+</div>
+
+<script>
+    // Funcionalidad de pestañas para cambiar entre semanas
+    const btns = document.querySelectorAll('.semana-btn');
+    const contenidos = document.querySelectorAll('.contenido-semana');
+
+    btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const semana = btn.getAttribute('data-semana');
+            
+            // Desactivar todos los botones y contenidos
+            btns.forEach(b => b.classList.remove('active'));
+            contenidos.forEach(c => c.classList.remove('active'));
+            
+            // Activar el seleccionado
+            btn.classList.add('active');
+            document.getElementById(`semana${semana}`).classList.add('active');
+        });
+    });
+</script>
+</body>
+</html>

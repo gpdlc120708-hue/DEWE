@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Carreras Universitarias</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f9;
+    }
+    nav {
+      background-color: #333;
+      color: #fff;
+      padding: 1em;
+      text-align: center;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    nav li {
+      display: inline-block;
+      margin: 0 15px;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+    nav a:hover {
+      color: #00bcd4;
+    }
+    #tabla-container {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: center;
+    }
+    th {
+      background-color: #f8f8f8;
+      color: #333;
+    }
+    img {
+      border-radius: 4px;
+      object-fit: cover;
+    }
+    h2 {
+      color: #333;
+      border-bottom: 2px solid #00bcd4;
+      padding-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <ul>
+      <li><a href="#" onclick="mostrarTabla('ingenieria')">Ingeniería</a></li>
+      <li><a href="#" onclick="mostrarTabla('administracion')">Administración</a></li>
+      <li><a href="#" onclick="mostrarTabla('marketing')">Marketing</a></li>
+      
+    </ul>
+  </nav>
+
+  <div id="tabla-container">
+    <p style="text-align:center; color:#666;">Selecciona una carrera del menú para ver sus materias.</p>
+  </div>
+
+  <script>
+    // 1. Base de datos de las carreras (Objeto Refactorizado)
+    const datosCarreras = {
+      'ingenieria': {
+        titulo: 'Facultad de Ingeniería',
+        materias: [
+          { nombre: 'Matemáticas', desc: 'Estudio de números y ecuaciones', img: 'https://nintenduo.com/wp-content/uploads/2021/11/Pokemon-Calculadora.webp' },
+          { nombre: 'Física', desc: 'Estudio de la materia y la energía', img: 'https://www.lifeder.com/wp-content/uploads/2020/09/Einstein-y-formula-min.jpg' }
+        ]
+      },
+      'administracion': {
+        titulo: 'Facultad de Administración',
+        materias: [
+          { nombre: 'Contabilidad', desc: 'Registro y control de recursos financieros', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDFrLSnOGSvqWXPbZUdVaJ_YNrWTj28iJWhw&s' },
+          { nombre: 'Recursos Humanos', desc: 'Gestión del talento y capital humano', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3lHca5yPaQtnYY8SXVWC1SKw_jJOCgyMatA&s' }
+        ]
+      },
+      'marketing': {
+        titulo: 'Facultad de Marketing',
+        materias: [
+          { nombre: 'Investigación de Mercados', desc: 'Análisis de tendencias y consumidores', img: 'https://www.intandemcommunications.co.uk/wp-content/uploads/2019/08/What-is-marketing-500x333.jpg' },
+          { nombre: 'Publicidad Digital', desc: 'Estrategias de comunicación online', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1a2w0ZcSayrYzRLS8OKwAN8DgjzT2ReEJPQ&s' }
+        ]
+      }
+    };
+
+    // 2. Función principal para renderizar la tabla
+    function mostrarTabla(carrera) {
+      const contenedor = document.getElementById('tabla-container');
+      const datos = datosCarreras[carrera];
+
+      if (!datos) return;
+
+      // Creamos las filas de la tabla dinámicamente
+      const filas = datos.materias.map(m => `
+        <tr>
+          <td>${m.nombre}</td>
+          <td>${m.desc}</td>
+          <td><img src="${m.img}" alt="${m.nombre}" width="300" height="250"></td>
+        </tr>
+      `).join('');
+
+      // Inyectamos el HTML final
+      contenedor.innerHTML = `
+        <h2>${datos.titulo}</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Materia</th>
+              <th>Descripción</th>
+              <th>Imagen</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${filas}
+          </tbody>
+        </table>
+      `;
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Menú con Imágenes</title>
+</head>
+<body>
+
+<h1>Menú</h1>
+
+<select id="menu" onchange="mostrarImagen(this.value)">
+    <option value="">Selecciona una opción</option>
+    <option value="playa">Playa</option>
+    <option value="montaña">Montaña</option>
+    <option value="ciudad">Ciudad</option>
+</select>
+
+<div id="imagen"></div>
+
+<script>
+function mostrarImagen(opcion) {
+    var imagen = document.getElementById('imagen');
+
+    if (opcion === 'playa') {
+        imagen.innerHTML = '<img src="https://www.mexicodesconocido.com.mx/wp-content/uploads/2017/03/3073226907_0ec108a732_o-900x675.jpg" alt="Imagen de playa" width="500">';
+    } 
+    else if (opcion === 'montaña') {
+        imagen.innerHTML = '<img src="https://puebla-es.acuariomichin.com/wp-content/uploads/2021/07/montanas-mexico-pico-de-orizaba-1024x640.jpg" alt="Imagen de montaña" width="500">';
+    } 
+    else if (opcion === 'ciudad') {
+        imagen.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Seoul_%28175734251%29_%28cropped%29.jpg/330px-Seoul_%28175734251%29_%28cropped%29.jpg" alt="Imagen de ciudad" width="500">';
+    } 
+    else {
+        imagen.innerHTML = "";
+    }
+}
+</script>
+
+</body>
+</html>

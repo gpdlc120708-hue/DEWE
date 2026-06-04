@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Menú de Carreras</title>
+</head>
+<style>
+
+img{
+display:block;
+margin:auto;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>Menú de Carreras</h1>
+
+<select onchange="mostrarCarrera(this.value)">
+<option value="">Selecciona la Carrera</option>
+<option value="PTB-Conservacion">PTB-Conservación del Medio Ambiente</option>
+<option value="PTB-Informatica">PTB-Informática</option>
+<option value="PTB-Productividad">PTB-Productividad Industrial</option>
+<option value="PTB-Quimica">PTB-Química Industrial</option>
+</select>
+
+<br><br>
+
+<div id="imagenCarrera"></div>
+<br>
+<div id="menuModulos"></div>
+<br>
+<div id="imagenModulos"></div>
+
+<script>
+
+function mostrarCarrera(carrera){
+
+var imagenCarrera = document.getElementById("imagenCarrera");
+var menuModulos = document.getElementById("menuModulos");
+var imagenModulos = document.getElementById("imagenModulos");
+
+imagenCarrera.innerHTML="";
+menuModulos.innerHTML="";
+imagenModulos.innerHTML="";
+
+if(carrera==="PTB-Conservacion"){
+
+imagenCarrera.innerHTML='<img src="https://boletines.guanajuato.gob.mx/wp-content/uploads/2022/06/Conalep-3-1024x768.jpeg" width="500">';
+
+}
+
+else if(carrera==="PTB-Informatica"){
+
+imagenCarrera.innerHTML='<img src="https://lh3.googleusercontent.com/proxy/RZySxDH0N4Ee40uzAcQwcOo7Zt5nFoHsYqdz3Bs8ezvfCx51mDTMz1ou59fbjb6LnD4jC66umZEO-0Bh4qKJ5pDOfHzzKzt0PeQ_WJz3qiupvKji" width="500">';
+
+menuModulos.innerHTML=`
+<h3>Modulos de Informatica</h3>
+
+<select onchange="mostrarModulos(this.value)">
+<option value="">Selecciona un Modulo</option>
+<option value="Conexion en Redes">MTCE</option>
+<option value="Aplicacion de la Normatividad Informatica">ANIN</option>
+<option value="Manejo de Redes">MRDE</option>
+<option value="Formacion Socioemocional">FOSO</option>
+<option value="Diseño y Elaboracion de Paginas Web">DEWE</option>
+<option value="Temas Selectos de Matematicas III">TSO3</option>
+<option value="Conciencia Histórica III">CHPC</option>
+<option value="Emprendimiento e innovacion">FEMP</option>
+</select>
+`;
+
+}
+
+else if(carrera==="PTB-Productividad"){
+
+imagenCarrera.innerHTML='<img src="https://nuevoleon1.conalep.edu.mx/sites/default/files/inline-images/Ma%CC%81quinas-Herramienta.JPG" width="500">';
+
+}
+
+else if(carrera==="PTB-Quimica"){
+
+imagenCarrera.innerHTML='<img src="https://conalepjalisco.edu.mx/web/images/CONALEP/carreras/quim_indu/1.jpg" width="500">';
+
+}
+
+}
+
+function mostrarModulos(modulo){
+
+var imagenModulos = document.getElementById("imagenModulos");
+
+if(modulo==="Conexion en Redes"){
+imagenModulos.innerHTML='<img src="https://www.telefonica.com/es/wp-content/uploads/sites/4/2024/07/pexels-photo-442150.jpeg?resize=1536,1024" width="350">';
+}
+
+else if(modulo==="Aplicacion de la Normatividad Informatica"){
+imagenModulos.innerHTML='<img src="https://images.cdn-files-a.com/uploads/2246925/400_5cf440a30a55a.jpg" width="350">';
+}
+
+else if(modulo==="Manejo de Redes"){
+imagenModulos.innerHTML='<img src="https://www.subeagenciadigital.com/wp-content/uploads/2026/03/manejo-de-redes-sociales-guia-profesional-2026.jpg" width="350">';
+}
+
+else if(modulo==="Formacion Socioemocional"){
+imagenModulos.innerHTML='<img src="https://www.religionyescuela.com/wp-content/uploads/2025/04/1944026.jpg" width="350">';
+}
+
+else if(modulo==="Diseño y Elaboracion de Paginas Web"){
+imagenModulos.innerHTML='<img src="https://www.codedonostia.com/wp-content/uploads/2022/12/Diseno-web-de-un-negocio-1-980x626.jpg" width="350">';
+}
+
+else if(modulo==="Temas Selectos de Matematicas III"){
+imagenModulos.innerHTML='<img src="https://concepto.de/wp-content/uploads/2013/08/matematicas-e1551990337130.jpg" width="350">';
+}
+
+else if(modulo==="Conciencia Histórica III"){
+imagenModulos.innerHTML='<img src="https://profelandia.com/wp-content/uploads/2025/03/articulo-bachilleraro.jpg" width="350">';
+}
+
+else if(modulo==="Emprendimiento e innovacion"){
+imagenModulos.innerHTML='<img src="https://www.ucuenca.edu.ec/wp-content/uploads/2024/04/pexels-fauxels-3183150-scaled.jpg" width="350">';
+}
+
+else{
+imagenModulos.innerHTML="";
+}
+
+}
+
+</script>
+
+</body>
+</html>
